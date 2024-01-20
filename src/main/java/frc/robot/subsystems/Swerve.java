@@ -27,7 +27,7 @@ public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
-
+    
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.Swerve.canivorename);
         gyro.getConfigurator().apply(new Pigeon2Configuration());
@@ -148,12 +148,20 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public ChassisSpeeds robotRelativeSpeeds(Translation2d translation, double rotation){
+        return ChassisSpeeds.discretize(translation.getX(), translation.getY(), rotation, 0.02);
+    }
+
+    
+
+   
+
     public ChassisSpeeds getCurrentSpeedsRR(){
         return Constants.Swerve.swerveKinematics.toChassisSpeeds(getModuleStates());
     }
 
     public void autoDrive(ChassisSpeeds chassisSpeeds){
-        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+        ChassisSpeeds targetSpeeds = chassisSpeeds;
 
         SwerveModuleState[] targetStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(targetSpeeds);
         setModuleStates(targetStates);

@@ -18,7 +18,7 @@ public class Limelight extends SubsystemBase {
   NetworkTableEntry ta = table.getEntry("ta");
   double x;
   double y;
-  boolean v; 
+  double v; 
   double area;
 
   /** Creates a new Limelight. */
@@ -33,9 +33,9 @@ public class Limelight extends SubsystemBase {
   public void update()
   {//read values periodically
       x = tx.getDouble(0.0);
-      System.out.println(x);
+      System.out.println(area);
       y = ty.getDouble(0.0);
-      v = tv.getBoolean(false); 
+      v = tv.getDouble(0.0); 
       area = ta.getDouble(0.0);
   }
 
@@ -44,7 +44,12 @@ public class Limelight extends SubsystemBase {
     return x;
   }
 
-  public boolean getV(){
+  public double getY(){
+    update();
+    return y;
+  }
+
+  public double getV(){
     update();
     return v;
   }

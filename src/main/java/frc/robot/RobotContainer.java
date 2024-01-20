@@ -4,11 +4,14 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.lib.pid.ScreamPIDConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -21,6 +24,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
     /* Controllers */
     private final XboxController driver = new XboxController(0);
+    private final CommandXboxController commandDriver = new CommandXboxController(0);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -33,6 +37,7 @@ public class RobotContainer {
 
     /* Subsystems */
     public final Swerve s_Swerve = new Swerve();
+    public final Limelight s_Limelight = new Limelight();
     private SendableChooser<Command> auto;
 
 
@@ -41,6 +46,8 @@ public class RobotContainer {
         auto = new SendableChooser<Command>();
         auto.setDefaultOption("Do Nothing", new PathPlannerAuto("Do Nothing"));
         auto.addOption("Test", new PathPlannerAuto("Test Auto"));
+        SmartDashboard.putData(auto);
+        
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 driver,
@@ -65,6 +72,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        commandDriver.b().onTrue(new Target(s_Swerve, s_Limelight, new ScreamPIDConstants(0.05,0,0), new ScreamPIDConstants(0.09, 0, 0), new ScreamPIDConstants(0.01,0,0)));
     }
 
     /**
@@ -74,6 +82,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new PathPlannerAuto("Test Auto");
+        return auto.getSelected();
     }
 }
