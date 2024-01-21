@@ -18,25 +18,29 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.pid.ScreamPIDConstants;
 import frc.robot.Constants;
 import frc.robot.LimelightHelper;
+import frc.robot.LimelightHelper.LimelightResults;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
 public class Target extends Command {
   Swerve s_Swerve;
   Limelight s_Limelight;
-  boolean atX = false;
-  boolean atY = false;
-  double translationDistance;
-  double strafeDistance;
-  double rotationDistance;
-  double tagT;
-  double tagS;
-  double tagR;
-  boolean atTarget = false;
-  double validTarget;
+  // boolean atX = false;
+  // boolean atY = false;
+  //double translationDistance;
+  //double strafeDistance;
+  //double rotationDistance;
+  //double tagT;
+  //double tagS;
+  //double tagR;
+  // boolean atTarget = false;
+  // double validTarget;
   PIDController xController;
   PIDController yController;
   PIDController rotController;
+
+  //The targing continues while you hold the B button instead of acting like a command that must finish.
+  //Make sure to zero the gyro first.
   
   /** Creates a new Target. */
   public Target(Swerve s_Swerve, Limelight s_Limelight, ScreamPIDConstants translationXConstants, ScreamPIDConstants translationYConstants, ScreamPIDConstants rotationConstants) {
@@ -45,6 +49,7 @@ public class Target extends Command {
     xController = translationXConstants.toPIDController();
     yController = translationYConstants.toPIDController();
     rotController = rotationConstants.toPIDController();
+    // rotController.enableContinuousInput(-180, 180);
 
     xController.setTolerance(1.2);
     yController.setTolerance(0.5);
@@ -57,25 +62,21 @@ public class Target extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    atTarget = false;
     s_Limelight.setPipeline(0);
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(s_Limelight.getV()<1.0){
-      atTarget = true;
-      return;
-    }
-    double xValue = LimelightHelper.getTV("limelight") ? yController.calculate(LimelightHelper.getTY("limelight"), 0) : 0;
+    //Setpoint is the target value, where you want the robot to go.
+    double xValue = LimelightHelper.getTV("limelight") ? -yController.calculate(LimelightHelper.getTY("limelight"), 7) : 0;
     double yValue = LimelightHelper.getTV("limelight") ? xController.calculate(LimelightHelper.getTX("limelight"), 0) : 0;
-    double rotValue = rotController.calculate(s_Swerve.getGyroYaw().getDegrees(), 0);
-     
+    double rotValue =/*  LimelightHelper.getTV("limelight") ?  */rotController.calculate(LimelightHelper.getTX("limelight"), 0);
+    
     s_Swerve.autoDrive(
       s_Swerve.robotRelativeSpeeds(new Translation2d(xValue, yValue), rotValue)
     );
+    System.out.println( LimelightHelper.getTV("limelight"));
   }
 
   // Called once the command ends or is interrupted.
@@ -87,6 +88,6 @@ public class Target extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return atTarget;
+    return false; //yController.atSetpoint();
   }
 }

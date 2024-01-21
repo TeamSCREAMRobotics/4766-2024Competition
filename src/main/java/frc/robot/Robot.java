@@ -95,7 +95,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     SmartDashboard.putNumber("x", m_Limelight.getX());
-        SmartDashboard.putNumber("y", m_Limelight.getArea());
+        SmartDashboard.putNumber("area", m_Limelight.getArea());
   }
 
   @Override

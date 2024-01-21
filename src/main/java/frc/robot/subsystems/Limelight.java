@@ -33,7 +33,7 @@ public class Limelight extends SubsystemBase {
   public void update()
   {//read values periodically
       x = tx.getDouble(0.0);
-      System.out.println(area);
+      // System.out.println(area);
       y = ty.getDouble(0.0);
       v = tv.getDouble(0.0); 
       area = ta.getDouble(0.0);

@@ -72,7 +72,8 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        commandDriver.b().onTrue(new Target(s_Swerve, s_Limelight, new ScreamPIDConstants(0.05,0,0), new ScreamPIDConstants(0.09, 0, 0), new ScreamPIDConstants(0.01,0,0)));
+        //TODO: PID may need more fine tuning
+        commandDriver.b().whileTrue(new Target(s_Swerve, s_Limelight, new ScreamPIDConstants(0.09,0,0), new ScreamPIDConstants(1, 0, 0), new ScreamPIDConstants(0.05,0,0)));
     }
 
     /**

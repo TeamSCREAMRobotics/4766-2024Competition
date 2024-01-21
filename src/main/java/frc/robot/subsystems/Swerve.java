@@ -139,7 +139,7 @@ public class Swerve extends SubsystemBase {
     
 
     public Rotation2d getGyroYaw() {
-        return Rotation2d.fromDegrees(gyro.getYaw().getValue());
+        return gyro.getRotation2d();
     }
 
     public void resetModulesToAbsolute(){
@@ -152,9 +152,10 @@ public class Swerve extends SubsystemBase {
         return ChassisSpeeds.discretize(translation.getX(), translation.getY(), rotation, 0.02);
     }
 
-    
-
-   
+    public ChassisSpeeds fieldRelativeSpeeds(Translation2d translation, double rotation){
+        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation, getHeading());
+        return ChassisSpeeds.discretize(speeds, 0.02);
+    }
 
     public ChassisSpeeds getCurrentSpeedsRR(){
         return Constants.Swerve.swerveKinematics.toChassisSpeeds(getModuleStates());
@@ -172,6 +173,7 @@ public class Swerve extends SubsystemBase {
     @Override
     public void periodic(){
         swerveOdometry.update(getGyroYaw(), getModulePositions());
+        System.out.println("Heading: " + getHeading());
 
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
