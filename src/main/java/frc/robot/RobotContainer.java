@@ -73,7 +73,7 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         //TODO: PID may need more fine tuning
-        commandDriver.b().whileTrue(new Target(s_Swerve, s_Limelight, new ScreamPIDConstants(0.09,0,0), new ScreamPIDConstants(1, 0, 0), new ScreamPIDConstants(0.05,0,0)));
+        commandDriver.b().onTrue(new Target(s_Swerve, s_Limelight, new ScreamPIDConstants(0.04,0,0.001), new ScreamPIDConstants(0.25, 0, 0.003), new ScreamPIDConstants(0.005,0,0)));
     }
 
     /**

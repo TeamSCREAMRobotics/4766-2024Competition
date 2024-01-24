@@ -51,9 +51,9 @@ public class Target extends Command {
     rotController = rotationConstants.toPIDController();
     // rotController.enableContinuousInput(-180, 180);
 
-    xController.setTolerance(1.2);
-    yController.setTolerance(0.5);
-    rotController.setTolerance(0.5);
+    xController.setTolerance(0.2);
+    yController.setTolerance(0.2);
+    rotController.setTolerance(0.2);
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Swerve);
     addRequirements(s_Limelight);
@@ -71,8 +71,14 @@ public class Target extends Command {
     //Setpoint is the target value, where you want the robot to go.
     double xValue = LimelightHelper.getTV("limelight") ? -yController.calculate(LimelightHelper.getTY("limelight"), 7) : 0;
     double yValue = LimelightHelper.getTV("limelight") ? xController.calculate(LimelightHelper.getTX("limelight"), 0) : 0;
-    double rotValue =/*  LimelightHelper.getTV("limelight") ?  */rotController.calculate(LimelightHelper.getTX("limelight"), 0);
+    if(LimelightHelper.getTY("limelight")>-0.2&&LimelightHelper.getTY("limelight")<0.2) xValue = 0;
     
+    double rotValue =/*  LimelightHelper.getTV("limelight") ?  */rotController.calculate(LimelightHelper.getTX("limelight"), 0);
+    if(LimelightHelper.getTX("limelight")>6.8&&LimelightHelper.getTX("limelight")<7.2){
+      yValue = 0;
+      rotValue = 0;
+    } 
+
     s_Swerve.autoDrive(
       s_Swerve.robotRelativeSpeeds(new Translation2d(xValue, yValue), rotValue)
     );
@@ -88,6 +94,6 @@ public class Target extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false; //yController.atSetpoint();
+    return xController.atSetpoint() && yController.atSetpoint();
   }
 }
