@@ -27,7 +27,7 @@ public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
-
+    
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.Swerve.canivorename);
         gyro.getConfigurator().apply(new Pigeon2Configuration());
@@ -139,7 +139,7 @@ public class Swerve extends SubsystemBase {
     
 
     public Rotation2d getGyroYaw() {
-        return Rotation2d.fromDegrees(gyro.getYaw().getValue());
+        return gyro.getRotation2d();
     }
 
     public void resetModulesToAbsolute(){
@@ -148,12 +148,21 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public ChassisSpeeds robotRelativeSpeeds(Translation2d translation, double rotation){
+        return ChassisSpeeds.discretize(translation.getX(), translation.getY(), rotation, 0.02);
+    }
+
+    public ChassisSpeeds fieldRelativeSpeeds(Translation2d translation, double rotation){
+        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation, getHeading());
+        return ChassisSpeeds.discretize(speeds, 0.02);
+    }
+
     public ChassisSpeeds getCurrentSpeedsRR(){
         return Constants.Swerve.swerveKinematics.toChassisSpeeds(getModuleStates());
     }
 
     public void autoDrive(ChassisSpeeds chassisSpeeds){
-        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+        ChassisSpeeds targetSpeeds = chassisSpeeds;
 
         SwerveModuleState[] targetStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(targetSpeeds);
         setModuleStates(targetStates);
@@ -164,6 +173,7 @@ public class Swerve extends SubsystemBase {
     @Override
     public void periodic(){
         swerveOdometry.update(getGyroYaw(), getModulePositions());
+        System.out.println("Heading: " + getHeading());
 
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());

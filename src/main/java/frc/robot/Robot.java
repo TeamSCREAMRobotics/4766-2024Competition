@@ -6,8 +6,10 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
 /**
@@ -23,6 +25,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private Swerve m_Swerve;
+  private Limelight m_Limelight;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -34,6 +37,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_Swerve = m_robotContainer.s_Swerve;
+    m_Limelight = m_robotContainer.s_Limelight;
   }
 
   /**
@@ -89,7 +93,10 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    SmartDashboard.putNumber("x", m_Limelight.getX());
+        SmartDashboard.putNumber("area", m_Limelight.getArea());
+  }
 
   @Override
   public void testInit() {
