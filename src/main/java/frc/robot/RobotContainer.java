@@ -62,8 +62,14 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot", new Shoot(s_Shooter, s_Pivot));
 
         auto = new SendableChooser<Command>();
+        //Basic Autos
         auto.setDefaultOption("Do Nothing", new PathPlannerAuto("Do Nothing"));
+        auto.setDefaultOption("Go Forward", new PathPlannerAuto("Go Forward"));
+
+        //Specific Autos
         auto.setDefaultOption("Amp", new PathPlannerAuto("Amp Auto"));
+        auto.setDefaultOption("From Speaker", new PathPlannerAuto("From Speaker"));
+        auto.setDefaultOption("Starting Point 3", new PathPlannerAuto("Starting Point 3"));
         
      
         SmartDashboard.putData(auto);
