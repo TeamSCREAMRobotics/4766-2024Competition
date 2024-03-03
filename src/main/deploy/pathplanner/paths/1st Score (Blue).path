@@ -50,11 +50,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0,
+    "rotation": -90.0,
     "rotateFast": true
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Amp Auto",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

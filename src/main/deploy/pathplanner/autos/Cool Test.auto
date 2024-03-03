@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3049755473412015,
-      "y": 5.551187918118234
+      "x": 0.86,
+      "y": 6.66
     },
-    "rotation": 0.010374068061516457
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "From Speaker"
+                  "pathName": "Really Cool thing"
                 }
               },
               {
@@ -45,7 +45,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Shoot after picking up piece"
+            "pathName": "Really Cool Thing 1"
           }
         },
         {
@@ -67,7 +67,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Pick up other piece"
+                  "pathName": "Really Cool Thing 2"
                 }
               },
               {
@@ -82,7 +82,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Shoot AgIAN"
+            "pathName": "Really Cool Thing 3"
           }
         },
         {

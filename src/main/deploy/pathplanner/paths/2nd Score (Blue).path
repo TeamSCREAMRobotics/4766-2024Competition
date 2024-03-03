@@ -54,7 +54,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Amp Auto",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

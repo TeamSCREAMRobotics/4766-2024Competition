@@ -37,10 +37,10 @@ public class Swerve extends SubsystemBase {
 
         //configures the modules as an array
         mSwerveMods = new SwerveModule[] {
-            new SwerveModule(0, Constants.Swerve.Mod2.constants),
-            new SwerveModule(1, Constants.Swerve.Mod3.constants),
-            new SwerveModule(2, Constants.Swerve.Mod0.constants),
-            new SwerveModule(3, Constants.Swerve.Mod1.constants)
+            new SwerveModule(0, Constants.Swerve.Mod0.constants),
+            new SwerveModule(1, Constants.Swerve.Mod1.constants),
+            new SwerveModule(2, Constants.Swerve.Mod2.constants),
+            new SwerveModule(3, Constants.Swerve.Mod3.constants)
         };
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
@@ -65,9 +65,9 @@ public class Swerve extends SubsystemBase {
 
                     var alliance = DriverStation.getAlliance();
                     if (alliance.isPresent()) {
-                        return alliance.get() != DriverStation.Alliance.Red;
+                        return alliance.get() == DriverStation.Alliance.Red;
                     }
-                    return true;
+                    return false;
                 },
                 this // Reference to this subsystem to set requirements
         );

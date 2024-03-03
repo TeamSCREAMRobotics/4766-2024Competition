@@ -1,8 +1,11 @@
 {
-  "robotWidth": 0.6604,
-  "robotLength": 0.7112,
+  "robotWidth": 0.889,
+  "robotLength": 0.9652,
   "holonomicMode": true,
-  "pathFolders": [],
+  "pathFolders": [
+    "From Speaker Auto",
+    "Amp Auto"
+  ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

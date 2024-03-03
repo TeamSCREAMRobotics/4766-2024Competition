@@ -64,13 +64,14 @@ public class RobotContainer {
         auto = new SendableChooser<Command>();
         //Basic Autos
         auto.setDefaultOption("Do Nothing", new PathPlannerAuto("Do Nothing"));
-        auto.setDefaultOption("Go Forward", new PathPlannerAuto("Go Forward"));
+        auto.addOption("Go Forward", new PathPlannerAuto("Go Forward"));
 
         //Specific Autos
-        auto.setDefaultOption("Amp", new PathPlannerAuto("Amp Auto"));
-        auto.setDefaultOption("From Speaker", new PathPlannerAuto("From Speaker"));
-        auto.setDefaultOption("Starting Point 3", new PathPlannerAuto("Starting Point 3"));
-        
+        auto.addOption("Amp", new PathPlannerAuto("Amp Auto"));
+        auto.addOption("From Speaker", new PathPlannerAuto("From Speaker"));
+        auto.addOption("Starting Point 3", new PathPlannerAuto("Starting Point 3"));
+        //The Crease Needs to be 4inches from the edge of the subwoofer
+        auto.addOption("Cool Test", new PathPlannerAuto("Cool Test"));
      
         SmartDashboard.putData(auto);
         
@@ -78,9 +79,9 @@ public class RobotContainer {
             new TeleopSwerve(
                 driver,
                 s_Swerve, 
-                () -> driver.getRawAxis(translationAxis), 
-                () -> driver.getRawAxis(strafeAxis), 
-                () -> driver.getRawAxis(rotationAxis), 
+                () -> -driver.getRawAxis(translationAxis), 
+                () -> -driver.getRawAxis(strafeAxis), 
+                () -> -driver.getRawAxis(rotationAxis), 
                 () -> !robotCentric.getAsBoolean()
             )
         );
