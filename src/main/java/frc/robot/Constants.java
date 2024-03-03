@@ -23,8 +23,8 @@ public final class Constants {
         COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(19.75); //TODO: This must be tuned to specific robot
-        public static final double wheelBase = Units.inchesToMeters(22.65); //TODO: This must be tuned to specific robot
+        public static final double trackWidth = Units.inchesToMeters(20); //TODO: This must be tuned to specific robot
+        public static final double wheelBase = Units.inchesToMeters(22.75); //TODO: This must be tuned to specific robot
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
         /* Swerve Kinematics 
@@ -91,40 +91,40 @@ public final class Constants {
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
         public static final class Mod0 { //TODO: This must be tuned to specific robot
-            public static final int driveMotorID = 0;
-            public static final int angleMotorID = 1;
-            public static final int canCoderID = 0;
-            public static final Rotation2d angleOffset = Rotation2d.fromRotations(-0.35546875);
+            public static final int driveMotorID = 1;
+            public static final int angleMotorID = 2;
+            public static final int canCoderID = 1;
+            public static final Rotation2d angleOffset = Rotation2d.fromRotations(-0.118896484375);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
 
         /* Front Right Module - Module 1 */
         public static final class Mod1 { //TODO: This must be tuned to specific robot
-            public static final int driveMotorID = 2;
-            public static final int angleMotorID = 3;
-            public static final int canCoderID = 1;
-            public static final Rotation2d angleOffset = Rotation2d.fromRotations(0.490478515625);
+            public static final int driveMotorID = 3;
+            public static final int angleMotorID = 4;
+            public static final int canCoderID = 2;
+            public static final Rotation2d angleOffset = Rotation2d.fromRotations(0.167724609375);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
         
         /* Back Left Module - Module 2 */
         public static final class Mod2 { //TODO: This must be tuned to specific robot
-            public static final int driveMotorID = 6;
-            public static final int angleMotorID = 7;
-            public static final int canCoderID = 3;
-            public static final Rotation2d angleOffset = Rotation2d.fromRotations(-0.32470703125);
+            public static final int driveMotorID = 7;
+            public static final int angleMotorID = 8;
+            public static final int canCoderID = 4;
+            public static final Rotation2d angleOffset = Rotation2d.fromRotations(0.392578125);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
 
         /* Back Right Module - Module 3 */
         public static final class Mod3 { //TODO: This must be tuned to specific robot
-            public static final int driveMotorID = 4;
-            public static final int angleMotorID = 5;
-            public static final int canCoderID = 2;
-            public static final Rotation2d angleOffset = Rotation2d.fromRotations(-0.28759765625);
+            public static final int driveMotorID = 5;
+            public static final int angleMotorID = 6;
+            public static final int canCoderID = 3;
+            public static final Rotation2d angleOffset = Rotation2d.fromRotations(0.442626953125);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -145,4 +145,38 @@ public final class Constants {
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
-}
+
+    public static final class ShooterConstants{
+        public static int shooterMasterID = 15;
+        public static int shooterFollowerID = 16;
+        public static int conveyorID = 10;
+        public static int beamBreakChannelID = 3;
+        public static int conveyorIntakeOutput = 7;
+        public static int conveyorOuttakeOutput = -5;
+        public static double shooterMaxVelocity = 7.8;
+        public static int shooterAmpVelocity = 3;
+    }
+
+    public static final class PivotConstants{
+        public static int pivotMasterID = 11;
+        public static int pivotFollowerID = 13;
+        public static int pivotCANCoderID = 5;
+        public static double pivotKG = 0.7;
+        public static double pivotKP = 35;
+        public static double pivotKD = 0;
+        
+    }
+
+    public static final class ClimberConstants{
+        public static int climberID = 14;
+    }
+
+    public static final class IntakeConstants{
+        public static int intakeMasterID = 9;
+        public static int intakeFollowerID = 12;
+        public static int intakeOutput = 7;
+        public static int outtakeOutput = -5;
+    }
+
+}    
+

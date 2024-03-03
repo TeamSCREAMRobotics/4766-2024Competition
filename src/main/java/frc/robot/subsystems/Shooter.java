@@ -4,14 +4,90 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
+  //declaring devices and making sure intake loaded is true (one loaded prior to starting match)
+  TalonFX shooterConveyor = new TalonFX(ShooterConstants.conveyorID);
+  public TalonFX shooterMaster = new TalonFX(ShooterConstants.shooterMasterID);
+  TalonFX shooterFollower = new TalonFX(ShooterConstants.shooterFollowerID);
+  DigitalInput beamBreak = new DigitalInput(ShooterConstants.beamBreakChannelID);
+  boolean intakeLoaded = true;
+  double shooterAmpVelocity = ShooterConstants.shooterAmpVelocity;
+  final VoltageOut m_request = new VoltageOut(0);
+  
+  public double shooterMaxVelocity = ShooterConstants.shooterMaxVelocity;
+  
   /** Creates a new Shooter. */
-  public Shooter() {}
+  public Shooter() {
+    Slot0Configs shooterConfigs = new Slot0Configs();
+    shooterConfigs.kP = 60;
+    shooterMaster.getConfigurator().apply(shooterConfigs);
+    shooterFollower.getConfigurator().apply(shooterConfigs);
+    TalonFXConfiguration conveyorConfig = new TalonFXConfiguration();
+    conveyorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    shooterFollower.setControl(new Follower(shooterMaster.getDeviceID(), false));
+  }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  //runs the conveyor forward using a set voltage
+  public void runConveyor(){
+    shooterConveyor.setControl(m_request.withOutput(ShooterConstants.conveyorIntakeOutput));
+  }
+
+  //runs the conveyor backwards in case pieces get stuck or need to come out backwards
+  public void Outtake(){
+    shooterConveyor.setControl(m_request.withOutput(ShooterConstants.conveyorOuttakeOutput));
+  }
+
+  //gets current velocity of shooter to check if up to speed
+  public double getShooterVelocity(){
+   return shooterMaster.getVelocity().getValueAsDouble();
+  }
+
+  //runs shooter
+  public void shoot(){
+    shooterMaster.setControl(m_request.withOutput(shooterMaxVelocity));
+    }
+
+  //checks to see if beam break is triggered
+  public boolean beamBreakTriggered(){
+    return !beamBreak.get();
+  }
+  
+
+  //stops conveyor
+  public void resetConveyor(){
+    shooterConveyor.setControl(m_request.withOutput(0));
+  }
+
+  //stops shooter
+  public void resetShooter(){
+    shooterMaster.setControl(m_request.withOutput(0));
+  }
+
+  //tells robot the intake has a note in it
+  public void setIntakeLoaded(boolean isNote){
+    intakeLoaded = isNote;
+  }
+
+  //checks to see if intake is loaded
+  public boolean getIntakeLoaded(){
+    return intakeLoaded;
+  }
+
+  public boolean shooterAtVelocity(){
+    return getShooterVelocity() == shooterMaxVelocity;
   }
 }
