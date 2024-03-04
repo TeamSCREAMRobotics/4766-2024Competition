@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.86,
-        "y": 6.912578575750977
+        "x": 2.56,
+        "y": 6.98
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2325377383826277,
-        "y": 6.912578575750977
+        "x": 2.844485806165451,
+        "y": 6.540259068692906
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.86,
-        "y": 7.595061650930903
+        "x": 1.22,
+        "y": 5.531431332960971
       },
       "prevControl": {
-        "x": 1.86,
-        "y": 6.745936629863302
+        "x": 1.2672907007166354,
+        "y": 5.50515872145173
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,18 +30,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "Place",
-      "waypointRelativePos": 1.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": []
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -50,11 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0,
-    "rotateFast": true
+    "rotation": 0,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp Auto",
-  "previewStartingState": null,
-  "useDefaultConstraints": false
+  "folder": "Blue 2 (SO) Paths",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
 }

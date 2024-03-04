@@ -3,24 +3,24 @@
   "startingPose": {
     "position": {
       "x": 0.86,
-      "y": 6.912578575750977
+      "y": 6.66
     },
-    "rotation": 180.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "1st Score (Blue)"
+            "name": "Shoot"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "Amp"
+            "waitTime": 1.0
           }
         },
         {
@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Pick Up 2nd Piece (Blue)"
+                  "pathName": "Blue 1 (SO) 0"
                 }
               },
               {
@@ -45,7 +45,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "2nd Score (Blue)"
+            "pathName": "Blue 1 (SO) 1"
           }
         },
         {
@@ -55,13 +55,19 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Pick Up Piece"
+                  "pathName": "Blue 1 (SO) 2"
                 }
               },
               {
@@ -72,10 +78,22 @@
               }
             ]
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue 1 (SO) 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Blue (SO) Auto",
   "choreoAuto": false
 }

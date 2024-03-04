@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3049755473412015,
-        "y": 5.551187918118234
+        "x": 0.86,
+        "y": 6.66
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2902898650181374,
-        "y": 5.565873600441298
+        "x": 2.145513284804164,
+        "y": 6.90055810661337
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.541512943215073,
-        "y": 5.551187918118234
+        "x": 1.8548434133905298,
+        "y": 5.678681397248834
       },
       "prevControl": {
-        "x": 2.5561986255381375,
-        "y": 5.53650223579517
+        "x": 1.5804844983433823,
+        "y": 5.757069658690876
+      },
+      "nextControl": {
+        "x": 2.068028161708107,
+        "y": 5.617771469158098
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.5471373563829744,
+        "y": 5.678681397248834
+      },
+      "prevControl": {
+        "x": 2.5471373563829744,
+        "y": 5.655164918816221
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "From Speaker Auto",
+  "folder": "Blue 1 (SO) Paths",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

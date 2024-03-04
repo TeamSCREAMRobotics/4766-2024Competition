@@ -3,10 +3,18 @@
   "robotLength": 0.9652,
   "holonomicMode": true,
   "pathFolders": [
-    "From Speaker Auto",
-    "Amp Auto"
+    "Blue 1 (SO) Paths",
+    "Blue 1 Paths",
+    "Blue 2 (SO) Paths",
+    "Blue 2 Paths",
+    "Blue 3 Paths",
+    "Blue 4 Paths"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Blue (SO) Auto",
+    "Blue Auto",
+    "Basic Autos"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

@@ -2,15 +2,21 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7447832033975026,
-      "y": 4.503301006848294
+      "x": 0.6590660038433869,
+      "y": 3.20162560325084
     },
-    "rotation": 120.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue 4 (SO) 0"
+          }
+        },
         {
           "type": "named",
           "data": {
@@ -24,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Starting Point"
+                  "pathName": "Blue 4 (SO) 1"
                 }
               },
               {
@@ -35,22 +41,10 @@
               }
             ]
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Shoot After Pickup"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Blue Auto",
   "choreoAuto": false
 }
