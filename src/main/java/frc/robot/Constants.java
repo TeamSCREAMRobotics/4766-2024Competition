@@ -154,7 +154,7 @@ public final class Constants {
         public static int conveyorIntakeOutput = 7;
         public static int conveyorOuttakeOutput = -5;
         public static double shooterMaxVelocity = 8.1;
-        public static int shooterAmpVelocity = 3;
+        public static int shooterLowerVelocity = 3;
     }
 
     public static final class PivotConstants{

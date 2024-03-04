@@ -13,11 +13,13 @@ public class Shoot extends Command {
   Shooter s_Shooter;
   Pivot s_Pivot;
   double shooterPhase;
+  double shooterVoltage;
   int timer;
   /** Creates a new Shoot. */
-  public Shoot(Shooter shooter, Pivot pivot) {
+  public Shoot(Shooter shooter, Pivot pivot, double input) {
     s_Shooter = shooter;
     s_Pivot = pivot;
+    shooterVoltage = input;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Shooter);
     addRequirements(s_Pivot);
@@ -36,7 +38,7 @@ public class Shoot extends Command {
   @Override
   public void execute() {
     //spins up shooter
-    s_Shooter.shoot();
+    s_Shooter.shoot(shooterVoltage);
     System.out.println(s_Shooter.shooterMaster.getVelocity());
     //checks to see if shooter is at velocity before running conveyor
     //won't stop if note is being shot (friction will lower velocity, will adjust code when prototype is built)

@@ -25,7 +25,7 @@ public class Shooter extends SubsystemBase {
   TalonFX shooterFollower = new TalonFX(ShooterConstants.shooterFollowerID);
   DigitalInput beamBreak = new DigitalInput(ShooterConstants.beamBreakChannelID);
   boolean intakeLoaded = true;
-  double shooterAmpVelocity = ShooterConstants.shooterAmpVelocity;
+  double shooterLowerVelocity = ShooterConstants.shooterLowerVelocity;
   final VoltageOut m_request = new VoltageOut(0);
   
   public double shooterMaxVelocity = ShooterConstants.shooterMaxVelocity;
@@ -57,9 +57,13 @@ public class Shooter extends SubsystemBase {
   }
 
   //runs shooter
-  public void shoot(){
-    shooterMaster.setControl(m_request.withOutput(shooterMaxVelocity));
+  public void shoot(double voltage){
+    shooterMaster.setControl(m_request.withOutput(voltage));
     }
+
+  public void shootSlow(){
+    shooterMaster.setControl(m_request.withOutput(shooterLowerVelocity));
+  }
 
   //checks to see if beam break is triggered
   public boolean beamBreakTriggered(){

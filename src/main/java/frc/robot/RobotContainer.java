@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.pid.ScreamPIDConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.Climber.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Pivot.*;
@@ -59,20 +60,40 @@ public class RobotContainer {
         NamedCommands.registerCommand("Target", new Target(s_Swerve, s_Limelight, new ScreamPIDConstants(0.04,0,0.001), new ScreamPIDConstants(0.25, 0, 0.003), new ScreamPIDConstants(0.005,0,0)));
         NamedCommands.registerCommand("Amp", new armSetPoint(s_Pivot, s_Shooter, 6));
         NamedCommands.registerCommand("Intake", new runIntake(s_Intake, s_Shooter));
-        NamedCommands.registerCommand("Shoot", new Shoot(s_Shooter, s_Pivot));
+        NamedCommands.registerCommand("Shoot", new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterMaxVelocity));
+        NamedCommands.registerCommand("ShootLow", new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterLowerVelocity));
 
         auto = new SendableChooser<Command>();
         //Basic Autos
         auto.setDefaultOption("Do Nothing", new PathPlannerAuto("Do Nothing"));
         auto.addOption("Go Forward", new PathPlannerAuto("Go Forward"));
 
-        //Specific Autos
-        auto.addOption("Amp", new PathPlannerAuto("Amp Auto"));
-        auto.addOption("From Speaker", new PathPlannerAuto("From Speaker"));
-        auto.addOption("Starting Point 3", new PathPlannerAuto("Starting Point 3"));
-        //The Crease Needs to be 4inches from the edge of the subwoofer
+        //Blue Speaker Only Autos
+        auto.addOption("Blue 1 (SO)", new PathPlannerAuto("Blue 1 (SO)"));
+        auto.addOption("Blue 2 (SO)", new PathPlannerAuto("Blue 2 (SO)"));
+
+        //Red Speaker Only Autos
+        auto.addOption("Red 1 (SO)", new PathPlannerAuto("Red 1 (SO)"));
+        auto.addOption("Red 2 (SO)", new PathPlannerAuto("Res 2 (SO)"));
+        //TODO:The Crease Needs to be 4inches from the edge of the subwoofer/speaker
+
+        //Blue Main Autos
+        auto.addOption("Blue 1", new PathPlannerAuto("Blue 1"));
+        auto.addOption("Blue 2", new PathPlannerAuto("Blue 2"));
+        auto.addOption("Blue 3", new PathPlannerAuto("Blue 3"));
+        auto.addOption("Blue 4", new PathPlannerAuto("Blue 4"));
+
+        //Red Main Autos
+        auto.addOption("Blue 1", new PathPlannerAuto("Blue 1"));
+        auto.addOption("Blue 2", new PathPlannerAuto("Blue 2"));
+        auto.addOption("Blue 3", new PathPlannerAuto("Blue 3"));
+        auto.addOption("Blue 4", new PathPlannerAuto("Blue 4"));
+
+        //Test
         auto.addOption("Cool Test", new PathPlannerAuto("Cool Test"));
-     
+        auto.addOption(null, new PathPlannerAuto(null));
+
+        
         SmartDashboard.putData(auto);
         
         s_Swerve.setDefaultCommand(
@@ -113,7 +134,7 @@ public class RobotContainer {
             new InstantCommand(()-> s_Shooter.Outtake());
             new InstantCommand(()-> s_Intake.Outtake());
         }
-        commandDriver.rightBumper().onTrue(new Shoot(s_Shooter, s_Pivot));
+        commandDriver.rightBumper().onTrue(new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterMaxVelocity));
         commandDriver.leftBumper().toggleOnTrue(new runIntake(s_Intake, s_Shooter));
 
         commandDriver.b().onTrue(new InstantCommand(()-> s_Pivot.setZero()));

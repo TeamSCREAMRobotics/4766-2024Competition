@@ -111,12 +111,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putNumber("x", m_Limelight.getX());
-    SmartDashboard.putNumber("area", m_Limelight.getArea());
-    SmartDashboard.putNumber("climber Pos" , m_Climber.returnClimberPos());
-    SmartDashboard.putNumber("Pivot Position", m_Pivot.returnPivotPos());
     
-
   }
 
   @Override

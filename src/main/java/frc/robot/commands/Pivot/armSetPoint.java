@@ -5,6 +5,7 @@
 package frc.robot.commands.Pivot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shooter;
 
@@ -41,7 +42,7 @@ public class armSetPoint extends Command {
       return;
     }
     //spins up shooter
-    s_Shooter.shoot();
+    s_Shooter.shoot(ShooterConstants.shooterLowerVelocity);
     System.out.println(s_Shooter.shooterMaster.getVelocity());
     //checks to see if shooter is at velocity before running conveyor
     //won't stop if note is being shot (friction will lower velocity, will adjust code when prototype is built)
