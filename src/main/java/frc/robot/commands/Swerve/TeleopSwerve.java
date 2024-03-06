@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.Swerve;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
@@ -36,11 +36,13 @@ public class TeleopSwerve extends Command {
     @Override
     public void execute() {
         /* Get Values, Deadband*/
-        if(driver.getRightBumper()){
+        //goes full speed when right bumper is held (fast mode). Good for crossing the field fast
+        if(driver.getRightTriggerAxis()>0.5){
             translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
             strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
             rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
         }
+        //drives motors at 40% speed (regular mode).
         else{
             translationVal = MathUtil.applyDeadband(translationSup.getAsDouble()*0.4, Constants.stickDeadband);
             strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble()*0.4, Constants.stickDeadband);
@@ -50,7 +52,7 @@ public class TeleopSwerve extends Command {
         s_Swerve.drive(
             new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed), 
             rotationVal * Constants.Swerve.maxAngularVelocity, 
-            !robotCentricSup.getAsBoolean(), 
+            robotCentricSup.getAsBoolean(), 
             true
         );
     }

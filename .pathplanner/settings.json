@@ -1,9 +1,21 @@
 {
-  "robotWidth": 0.6604,
-  "robotLength": 0.7112,
+  "robotWidth": 0.889,
+  "robotLength": 0.9652,
   "holonomicMode": true,
-  "pathFolders": [],
-  "autoFolders": [],
+  "pathFolders": [
+    "Blue 1 (SO) Paths",
+    "Blue 1 Paths",
+    "Blue 2 (SO) Paths",
+    "Blue 2 Paths",
+    "Blue 3 Paths",
+    "Blue 4 Paths"
+  ],
+  "autoFolders": [
+    "Basic Autos",
+    "Blue (SO) Auto",
+    "Blue Auto",
+    "Red For Now"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

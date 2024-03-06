@@ -2,31 +2,31 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.8604402957024457,
-      "y": 6.912578575750977
+      "x": 0.7859976973515199,
+      "y": 4.408696224799858
     },
-    "rotation": 0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "1st Score (Blue)"
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 10.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Pick Up 2nd Piece (Blue)"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "2nd Score (Blue)"
+            "pathName": "MOVE 1"
           }
         }
       ]

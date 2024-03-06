@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.090047505938243,
-      "y": 5.358099762470309
+      "x": 0.682521136467984,
+      "y": 7.1772705831166945
     },
     "rotation": 0
   },
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Test Path 4"
+            "pathName": "Go Forward"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Basic Autos",
   "choreoAuto": false
 }

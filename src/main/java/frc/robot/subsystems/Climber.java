@@ -4,14 +4,79 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
+
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ClimberConstants;
 
 public class Climber extends SubsystemBase {
-  /** Creates a new Climber. */
-  public Climber() {}
+  //initializes the motor for the climber
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public TalonFX climberMotor = new TalonFX(ClimberConstants.climberID);
+   final VoltageOut m_request = new VoltageOut(0);
+   public double climbPos;
+   
+  /** Creates a new Climber. */
+  public Climber() {
+ 
+    TalonFXConfiguration climbConfig = new TalonFXConfiguration();
+    climbConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    climberMotor.getConfigurator().apply(climbConfig);
+
+    
   }
+
+  //stops the climber when called
+  public void stopClimber(){
+    climberMotor.setControl(m_request.withOutput(0));
+  }
+
+  public void updateClimberPos(){
+    climbPos = climberMotor.getPosition().getValueAsDouble();
+  }
+
+  public double returnClimberPos(){
+    updateClimberPos();
+    return climbPos;
+  }
+
+  //runs the climber to the setPoint (up and down)
+  public void runClimber(double setPoint){
+    //sets PID values (Phoenix 6 sucks)
+    var slot0Configs = new Slot0Configs();
+      slot0Configs.kP = 1; 
+      slot0Configs.kI = 0; 
+      slot0Configs.kD = 0.1;
+      
+    //applies PID values
+    climberMotor.getConfigurator().apply(slot0Configs);
+    final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
+    climberMotor.setControl(m_request.withPosition(setPoint));
+    
+  }
+
+  public boolean atSetpoint(double setPoint){
+    if(climberMotor.getPosition().getValueAsDouble() == setPoint)return true;
+    return false;
+  }
+
+  public void manualClimb(double rightY){
+    final VoltageOut m_request = new VoltageOut(0);
+    climberMotor.setControl(m_request.withOutput(rightY*6));
+  }
+
+  public void setZero(){
+    climberMotor.setPosition(0);
+  }
+
+  
 }

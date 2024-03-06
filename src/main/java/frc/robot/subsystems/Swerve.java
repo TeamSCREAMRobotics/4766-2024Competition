@@ -24,25 +24,28 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Swerve extends SubsystemBase {
+    //creates all of the objects outside of the constructor so the rest of the class can see them.
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
     
     public Swerve() {
-        gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.Swerve.canivorename);
+        //configures the gyro
+        gyro = new Pigeon2(Constants.Swerve.pigeonID);
         gyro.getConfigurator().apply(new Pigeon2Configuration());
         gyro.setYaw(0);
 
+        //configures the modules as an array
         mSwerveMods = new SwerveModule[] {
-            new SwerveModule(0, Constants.Swerve.Mod1.constants),
-            new SwerveModule(1, Constants.Swerve.Mod0.constants),
-            new SwerveModule(2, Constants.Swerve.Mod3.constants),
-            new SwerveModule(3, Constants.Swerve.Mod2.constants)
+            new SwerveModule(0, Constants.Swerve.Mod0.constants),
+            new SwerveModule(1, Constants.Swerve.Mod1.constants),
+            new SwerveModule(2, Constants.Swerve.Mod2.constants),
+            new SwerveModule(3, Constants.Swerve.Mod3.constants)
         };
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
 
-
+        //Configures the robot for Auto using inputs from Pathplanner and the Modules
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
                 this::setPose, // Method to reset odometry (will be called if your auto has a starting pose)
@@ -59,9 +62,8 @@ public class Swerve extends SubsystemBase {
                     // Boolean supplier that controls when the path will be mirrored for the red alliance
                     // This will flip the path being followed to the red side of the field.
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
                     var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
+                    if(alliance.isPresent()){
                         return alliance.get() == DriverStation.Alliance.Red;
                     }
                     return false;
@@ -69,7 +71,7 @@ public class Swerve extends SubsystemBase {
                 this // Reference to this subsystem to set requirements
         );
     }
-
+    //Drives the robot. Used during Teleop.
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
@@ -91,7 +93,7 @@ public class Swerve extends SubsystemBase {
         }
     }    
 
-    /* Used by SwerveControllerCommand in Auto */
+    //sets the state of each module
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
         
@@ -100,6 +102,7 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    //gets the state of each module as an array
     public SwerveModuleState[] getModuleStates(){
         SwerveModuleState[] states = new SwerveModuleState[4];
         for(SwerveModule mod : mSwerveMods){
@@ -108,6 +111,7 @@ public class Swerve extends SubsystemBase {
         return states;
     }
 
+    //gets the position of the robot as an array
     public SwerveModulePosition[] getModulePositions(){
         SwerveModulePosition[] positions = new SwerveModulePosition[4];
         for(SwerveModule mod : mSwerveMods){
@@ -116,28 +120,33 @@ public class Swerve extends SubsystemBase {
         return positions;
     }
 
+    //gets the current pose of the robot in meters and returns it as a Pose2d.
     public Pose2d getPose() {
         return swerveOdometry.getPoseMeters();
     }
 
+    //sets the position of the robot to the input. Used during autos for zeroing (autos are robot relative).
     public void setPose(Pose2d pose) {
         swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), pose);
     }
 
+    //gets the current heading of the robot.
     public Rotation2d getHeading(){
         return getPose().getRotation();
     }
 
+    //sets the heading of the robot to the input. Not sure if needed, will delete after testing if not.
     public void setHeading(Rotation2d heading){
         swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), heading));
     }
 
+    //Zeroes the robot. Useful for changing the forward direction while field relative.
     public void zeroHeading(){
         swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), new Rotation2d()));
     }
 
     
-
+    //gets the current yaw of the gyro
     public Rotation2d getGyroYaw() {
         return gyro.getRotation2d();
     }
@@ -148,19 +157,23 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    //Turns a Translation2d and rotation input into ChassisSpeeds while also discretizing the output
     public ChassisSpeeds robotRelativeSpeeds(Translation2d translation, double rotation){
         return ChassisSpeeds.discretize(translation.getX(), translation.getY(), rotation, 0.02);
     }
 
+    //gets the field relative speed of the robot in ChassisSpeeds
     public ChassisSpeeds fieldRelativeSpeeds(Translation2d translation, double rotation){
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation, getHeading());
         return ChassisSpeeds.discretize(speeds, 0.02);
     }
 
+    //gets the current speed of the robot in ChassisSpeeds
     public ChassisSpeeds getCurrentSpeedsRR(){
         return Constants.Swerve.swerveKinematics.toChassisSpeeds(getModuleStates());
     }
 
+    //used for autos and moving to a setpoints (ex. Limelight Targeting)
     public void autoDrive(ChassisSpeeds chassisSpeeds){
         ChassisSpeeds targetSpeeds = chassisSpeeds;
 
@@ -169,16 +182,15 @@ public class Swerve extends SubsystemBase {
     }
 
     
-
+    //updates the odometry every tick
     @Override
     public void periodic(){
         swerveOdometry.update(getGyroYaw(), getModulePositions());
-        System.out.println("Heading: " + getHeading());
 
         for(SwerveModule mod : mSwerveMods){
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
+            //SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
+           // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
+           // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
     }
 }

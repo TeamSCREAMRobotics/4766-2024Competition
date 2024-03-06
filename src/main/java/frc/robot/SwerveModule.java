@@ -1,11 +1,13 @@
 package frc.robot;
 
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -50,18 +52,23 @@ public class SwerveModule {
         resetToAbsolute();
 
         /* Drive Motor Config */
+        TalonFXConfiguration mod2Flip = new TalonFXConfiguration();
+        //mod2Flip.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        
         mDriveMotor = new TalonFX(moduleConstants.driveMotorID, Constants.Swerve.canivorename);
+        
         mDriveMotor.getConfigurator().apply(Robot.ctreConfigs.swerveDriveFXConfig);
+        //if(moduleNumber == 2)mDriveMotor.getConfigurator().apply(mod2Flip);
         mDriveMotor.getConfigurator().setPosition(0.0);
         mDriveMotor.getVelocity().setUpdateFrequency(50);
     }
-
+    //sets the desired state of each module using inputs from Swerve
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
         desiredState = SwerveModuleState.optimize(desiredState, getState().angle); 
         mAngleMotor.setControl(anglePosition.withPosition(desiredState.angle.getRotations()));
         setSpeed(desiredState, isOpenLoop);
     }
-
+    //sets the speed of each module as a velocity
     private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
         if(isOpenLoop){
             driveDutyCycle.Output = desiredState.speedMetersPerSecond / Constants.Swerve.maxSpeed;
@@ -73,23 +80,23 @@ public class SwerveModule {
             mDriveMotor.setControl(driveVelocity);
         }
     }
-
+    //gets the encoder value for the chosen module
     public Rotation2d getCANcoder(){
         return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValue());
     }
-
+    //resets the encoder for the chosen module
     public void resetToAbsolute(){
         double absolutePosition = angleEncoder.getAbsolutePosition().waitForUpdate(0.5).getValue();
         mAngleMotor.setPosition(absolutePosition);
     }
-
+    //gets the state of each module
     public SwerveModuleState getState(){
         return new SwerveModuleState(
             Conversions.RPSToMPS(mDriveMotor.getVelocity().getValue(), Constants.Swerve.wheelCircumference), 
             Rotation2d.fromRotations(mAngleMotor.getPosition().getValue())
         );
     }
-
+    //gets the position of each module
     public SwerveModulePosition getPosition(){
         return new SwerveModulePosition(
             Conversions.rotationsToMeters(mDriveMotor.getPosition().getValue(), Constants.Swerve.wheelCircumference), 
