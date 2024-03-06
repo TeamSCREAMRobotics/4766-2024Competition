@@ -39,7 +39,6 @@ public class Outtake extends Command {
     s_Shooter.randOut(-0.9);
     }
     if(timer < 75){
-  //    System.out.println("Outtake is running" + timer);
       timer++;
       return;
     }

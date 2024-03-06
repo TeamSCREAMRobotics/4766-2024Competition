@@ -12,21 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "Blue 1 (0)"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Amp"
+            "name": "Shoot"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "funny"
+            "waitTime": 0.5
           }
         },
         {
@@ -36,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blue 1 (1)"
+                  "pathName": "Red 1 (SO) 0"
                 }
               },
               {
@@ -51,7 +45,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue 1 (2)"
+            "pathName": "Red 1 (SO) 1"
           }
         },
         {
@@ -73,7 +67,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blue 1 (3)"
+                  "pathName": "Red 1 (SO) 2"
                 }
               },
               {
@@ -84,10 +78,22 @@
               }
             ]
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Red 1 (SO) 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
         }
       ]
     }
   },
-  "folder": "Blue Auto",
+  "folder": "Red For Now",
   "choreoAuto": false
 }

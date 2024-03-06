@@ -31,6 +31,7 @@ public class Shooter extends SubsystemBase {
   final DutyCycleOut m_cycle = new DutyCycleOut(0);
   
   public double shooterMaxVelocity = ShooterConstants.shooterMaxVelocity;
+public Object shooterLower;
   
   /** Creates a new Shooter. */
   public Shooter() {

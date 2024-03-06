@@ -71,29 +71,28 @@ public class RobotContainer {
         auto.addOption("Go Forward", new PathPlannerAuto("Go Forward"));
 
         //Blue Speaker Only Autos
-        auto.addOption("Blue 1 (SO)", new PathPlannerAuto("Blue 1 (SO)"));
-        auto.addOption("Blue 2 (SO)", new PathPlannerAuto("Blue 2 (SO)"));
+        auto.addOption("Amp Side Pivot 3 Note", new PathPlannerAuto("Blue 1 (SO)"));
+        auto.addOption("4 Note", new PathPlannerAuto("Blue 2 (SO)"));
 
         //Red Speaker Only Autos
-        //auto.addOption("Red 1 (SO)", new PathPlannerAuto("Red 1 (SO)"));
-        //auto.addOption("Red 2 (SO)", new PathPlannerAuto("Res 2 (SO)"));
+        auto.addOption("Amp Side Pivot 3 Note (Red)", new PathPlannerAuto("Red 1 (SO)"));
+        
         //TODO:The Crease Needs to be 4inches from the edge of the subwoofer/speaker
 
         //Blue Main Autos
-        auto.addOption("Blue 1", new PathPlannerAuto("Blue 1"));
-        auto.addOption("Blue 2", new PathPlannerAuto("Blue 2"));
-        auto.addOption("Blue 3", new PathPlannerAuto("Blue 3"));
-        auto.addOption("Blue 4", new PathPlannerAuto("Blue 4"));
+        auto.addOption("Amp Side Pivot 3 Note (Amp Score)", new PathPlannerAuto("Blue 1"));
+        auto.addOption("Side 2 Note", new PathPlannerAuto("Blue 3"));
+        auto.addOption("OffSide 2 Note", new PathPlannerAuto("Blue 4"));
 
-        //Red Main Autos
-        auto.addOption("Blue 1", new PathPlannerAuto("Blue 1"));
-        auto.addOption("Blue 2", new PathPlannerAuto("Blue 2"));
-        auto.addOption("Blue 3", new PathPlannerAuto("Blue 3"));
-        auto.addOption("Blue 4", new PathPlannerAuto("Blue 4"));
-
+        //Red Main Auto and MOVE
+        auto.addOption("Amp Side Pivot 3 Note (Amp Score)(Red)", new PathPlannerAuto("Red 1"));
+        auto.addOption("MOVE 1", new PathPlannerAuto("MOVE 1"));
+        auto.addOption("MOVE 2", new PathPlannerAuto("MOVE 2"));
+        auto.addOption("MOVE 3", new PathPlannerAuto("MOVE 3"));
+        
         //Test
-        auto.addOption("Cool Test", new PathPlannerAuto("Cool Test"));
-        //auto.addOption(null, new PathPlannerAuto(null));
+        
+        
 
         
         SmartDashboard.putData(auto);
@@ -131,17 +130,12 @@ public class RobotContainer {
         //TODO: PID may need more fine tuning
        
 
-        //Drmiver Controls
+        //Driver Controls
         //Right Trigger is already set to fast mode and Joysticks are already set up for swerve
-
-        /*if(commandDriver.getLeftTriggerAxis() > 0.8){
-            new InstantCommand(()-> s_Shooter.randOut(-0.5));
-            new InstantCommand(()-> s_Intake.randOut(-0.5));
-        }*/
 
         commandDriver.leftBumper().toggleOnTrue(new runIntake(s_Intake, s_Shooter, IntakeConstants.intakeOutput));
         commandDriver.rightBumper().onTrue(new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterMaxVelocity));
-        commandDriver.a().onTrue(new Outtake(s_Intake, s_Shooter, -0.5).alongWith(new sendPivotZero(s_Pivot, 2)));
+        commandDriver.leftTrigger(0.8).onTrue(new Outtake(s_Intake, s_Shooter, -0.5).alongWith(new sendPivotZero(s_Pivot, 2)));
         
 
         commandDriver.b().onTrue(new InstantCommand(()-> s_Pivot.setZero()));
@@ -150,24 +144,18 @@ public class RobotContainer {
         //Operator Controls
         //Left Joystick is already set to manualPivot.
         //Right Joystick is already set to manualClimb.
-        commandOperator.povUp().onTrue(new armSetPoint(s_Pivot, s_Shooter, 6));
+        commandOperator.povUp().onTrue(new armSetPoint(s_Pivot, s_Shooter, 6.2));
         commandOperator.povRight().onTrue(new InstantCommand(()-> s_Climber.setZero()));
         commandOperator.povDown().onTrue(new InstantCommand(()-> s_Pivot.setZero()));
       //Toggle up and down for climber
         commandOperator.povLeft().toggleOnTrue(new Climb(s_Climber, -196)).toggleOnFalse(new Climb(s_Climber, 0));
 
-        if(commandOperator.rightBumper().getAsBoolean() == true){
+    
         commandOperator.a().onTrue(new stopClimb(s_Climber));   
         commandOperator.b().onTrue(new zeroPivot(s_Pivot));
-
-        commandOperator.x().onTrue(new InstantCommand(()-> s_Shooter.resetConveyor()));
-        commandOperator.x().onTrue(new InstantCommand(()-> s_Shooter.resetShooter())); 
-        //commandDriver.b().whileTrue(new InstantCommand(()-> s_Shooter.randOut(-0.5)).alongWith(new InstantCommand(()-> s_Intake.randOut(-0.5))));
-        //commandDriver.a().onTrue(new InstantCommand(()-> s_Intake.runIntake(-5)));
-        
-
-       // commandDriver.b().onTrue(new sendPivotZero(s_Pivot, 1));
-        }   
+        commandOperator.x().onTrue(new resetIntake(s_Shooter, s_Intake));
+      
+           
     }
 
     /**
@@ -179,4 +167,5 @@ public class RobotContainer {
         // An ExampleCommand will run in autonomous
         return auto.getSelected();
     }
+
 }

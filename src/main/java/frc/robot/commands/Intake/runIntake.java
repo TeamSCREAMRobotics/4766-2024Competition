@@ -31,7 +31,6 @@ public class runIntake extends Command {
 
   @Override
   public void initialize(){
-    System.out.println("runIntake is initialized");
     s_Shooter.setIntakeLoaded(false);
     intakePhase = 0;
     timer = 0;
@@ -40,7 +39,6 @@ public class runIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println(s_Shooter.beamBreakTriggered());
     //checks for note before running
     //runs intake
     s_Intake.runIntake(output);
@@ -83,7 +81,6 @@ public class runIntake extends Command {
   public void end(boolean interrupted) {
     s_Intake.resetIntake();
     s_Shooter.resetConveyor();
-    System.out.println("runIntake is finished");
   }
 
   // Returns true when the command should end.

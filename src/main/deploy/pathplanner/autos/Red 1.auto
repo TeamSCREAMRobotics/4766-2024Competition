@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blue 1 (SO) 0"
+                  "pathName": "Red 1 (SO) 0"
                 }
               },
               {
@@ -45,7 +45,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue 1 (SO) 1"
+            "pathName": "Red 1 (SO) 1"
           }
         },
         {
@@ -67,7 +67,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blue 1 (SO) 2"
+                  "pathName": "Red 1 (SO) 2"
                 }
               },
               {
@@ -82,13 +82,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue 1 (0)"
+            "pathName": "Red 1 (0)"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Amp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Pivot Down"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RED1(1)"
           }
         }
       ]

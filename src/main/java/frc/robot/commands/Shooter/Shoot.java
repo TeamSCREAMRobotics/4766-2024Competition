@@ -70,7 +70,7 @@ public class Shoot extends Command {
     //tells robot there isn't a note in the shooterbox
     s_Shooter.setIntakeLoaded(false);
     s_Pivot.endSetPointCommand(true);
-    System.out.println("The Fried Chicken Has Been Waffled");
+    System.out.println("finished shoot");
   }
 
   // Returns true when the command should end.

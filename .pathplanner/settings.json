@@ -11,9 +11,10 @@
     "Blue 4 Paths"
   ],
   "autoFolders": [
+    "Basic Autos",
     "Blue (SO) Auto",
     "Blue Auto",
-    "Basic Autos"
+    "Red For Now"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

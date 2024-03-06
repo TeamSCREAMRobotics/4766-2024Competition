@@ -153,9 +153,10 @@ public final class Constants {
         public static int beamBreakChannelID = 3;
         public static int conveyorIntakeOutput = 7;
         public static int conveyorOuttakeOutput = -5;
-        public static double shooterMaxVelocity = 8.06;
-        public static int shooterLowerVelocity = 6;
+        public static double shooterMaxVelocity = 7.78;
+        public static double shooterLowerVelocity = 5;
     }
+
 
     public static final class PivotConstants{
         public static int pivotMasterID = 11;
