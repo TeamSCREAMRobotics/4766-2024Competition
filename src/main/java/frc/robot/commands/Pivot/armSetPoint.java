@@ -63,8 +63,6 @@ public class armSetPoint extends Command {
           s_Pivot.endSetPointCommand(true);
 
         shooterPhase = 3;
-          
-        
         
       }
     }
