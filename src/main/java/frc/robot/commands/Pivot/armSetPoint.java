@@ -48,7 +48,7 @@ public class armSetPoint extends Command {
     //won't stop if note is being shot (friction will lower velocity, will adjust code when prototype is built)
     if(s_Shooter.getShooterVelocity()>1.8&&shooterPhase != 3){
       //runs conveyor
-      s_Shooter.runConveyor();
+      s_Shooter.runConveyor(ShooterConstants.conveyorIntakeOutput);
       //moves to phase one if on phase 0
       if(shooterPhase==0) shooterPhase = 1;
       //switches to phase 2 after note passes beambreak

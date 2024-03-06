@@ -13,13 +13,16 @@ import frc.robot.subsystems.Shooter;
 public class runIntake extends Command {
   private Shooter s_Shooter;
   private Intake s_Intake;
+
+  double output;
   double intakePhase;
   int timer;
   
   /** Creates a new Intake. */
-  public runIntake(Intake intake, Shooter shooter) {
+  public runIntake(Intake intake, Shooter shooter, double output) {
     s_Shooter = shooter;
     s_Intake = intake;
+    this.output = output;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Intake);
     addRequirements(s_Shooter);
@@ -28,6 +31,7 @@ public class runIntake extends Command {
 
   @Override
   public void initialize(){
+    System.out.println("runIntake is initialized");
     s_Shooter.setIntakeLoaded(false);
     intakePhase = 0;
     timer = 0;
@@ -39,10 +43,21 @@ public class runIntake extends Command {
     System.out.println(s_Shooter.beamBreakTriggered());
     //checks for note before running
     //runs intake
-    s_Intake.runIntake();
+    s_Intake.runIntake(output);
+
+    if(output == -5){
+      s_Intake.runIntake(output);
+      s_Shooter.runConveyor(output);
+      timer ++;
+      if(s_Shooter.beamBreakTriggered() == false && timer == 15){
+        intakePhase = 3;
+      }
+    }
+    else{
+    
     //runs conveyor until beambreak is triggered
     if(intakePhase == 0){
-      s_Shooter.runConveyor();
+      s_Shooter.runConveyor(output);
       if(s_Shooter.beamBreakTriggered())intakePhase = 1;
     }
 
@@ -60,7 +75,7 @@ public class runIntake extends Command {
       s_Shooter.setIntakeLoaded(true);
     }
     
-
+  }
   }
 
   // Called once the command ends or is interrupted.
@@ -68,6 +83,7 @@ public class runIntake extends Command {
   public void end(boolean interrupted) {
     s_Intake.resetIntake();
     s_Shooter.resetConveyor();
+    System.out.println("runIntake is finished");
   }
 
   // Returns true when the command should end.

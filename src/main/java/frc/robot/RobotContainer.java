@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.pid.ScreamPIDConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.Climber.*;
 import frc.robot.commands.Intake.*;
@@ -59,7 +60,8 @@ public class RobotContainer {
     public RobotContainer() {
         NamedCommands.registerCommand("Target", new Target(s_Swerve, s_Limelight, new ScreamPIDConstants(0.04,0,0.001), new ScreamPIDConstants(0.25, 0, 0.003), new ScreamPIDConstants(0.005,0,0)));
         NamedCommands.registerCommand("Amp", new armSetPoint(s_Pivot, s_Shooter, 6));
-        NamedCommands.registerCommand("Intake", new runIntake(s_Intake, s_Shooter));
+        NamedCommands.registerCommand("Pivot Down", new sendPivotZero(s_Pivot, 0.5));
+        NamedCommands.registerCommand("Intake", new runIntake(s_Intake, s_Shooter, IntakeConstants.intakeOutput));
         NamedCommands.registerCommand("Shoot", new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterMaxVelocity));
         NamedCommands.registerCommand("ShootLow", new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterLowerVelocity));
 
@@ -109,6 +111,8 @@ public class RobotContainer {
 
         s_Pivot.setDefaultCommand(new manualPivot(s_Pivot, () -> -commandOperator.getLeftY()));
         s_Climber.setDefaultCommand(new manualClimber(s_Climber, ()-> commandOperator.getRightY()));
+       // s_Intake.setDefaultCommand(new resetIntake(s_Shooter, s_Intake));
+        //s_Shooter.setDefaultCommand(new resetIntake(s_Shooter, s_Intake));
         
 
         // Configure the button bindings
@@ -130,12 +134,15 @@ public class RobotContainer {
         //Drmiver Controls
         //Right Trigger is already set to fast mode and Joysticks are already set up for swerve
 
-        if(commandDriver.getLeftTriggerAxis() == 1){
-            new InstantCommand(()-> s_Shooter.Outtake());
-            new InstantCommand(()-> s_Intake.Outtake());
-        }
+        /*if(commandDriver.getLeftTriggerAxis() > 0.8){
+            new InstantCommand(()-> s_Shooter.randOut(-0.5));
+            new InstantCommand(()-> s_Intake.randOut(-0.5));
+        }*/
+
+        commandDriver.leftBumper().toggleOnTrue(new runIntake(s_Intake, s_Shooter, IntakeConstants.intakeOutput));
         commandDriver.rightBumper().onTrue(new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterMaxVelocity));
-        commandDriver.leftBumper().toggleOnTrue(new runIntake(s_Intake, s_Shooter));
+        commandDriver.a().onTrue(new Outtake(s_Intake, s_Shooter, -0.5).alongWith(new sendPivotZero(s_Pivot, 2)));
+        
 
         commandDriver.b().onTrue(new InstantCommand(()-> s_Pivot.setZero()));
         //commandDriver.a().onTrue(new Target(s_Swerve, s_Limelight, new ScreamPIDConstants(0.04,0,0.001), new ScreamPIDConstants(0.25, 0, 0.003), new ScreamPIDConstants(0.005,0,0)));
@@ -155,7 +162,11 @@ public class RobotContainer {
 
         commandOperator.x().onTrue(new InstantCommand(()-> s_Shooter.resetConveyor()));
         commandOperator.x().onTrue(new InstantCommand(()-> s_Shooter.resetShooter())); 
-        commandDriver.a().onTrue(new InstantCommand(()-> s_Shooter.Outtake()));
+        //commandDriver.b().whileTrue(new InstantCommand(()-> s_Shooter.randOut(-0.5)).alongWith(new InstantCommand(()-> s_Intake.randOut(-0.5))));
+        //commandDriver.a().onTrue(new InstantCommand(()-> s_Intake.runIntake(-5)));
+        
+
+       // commandDriver.b().onTrue(new sendPivotZero(s_Pivot, 1));
         }   
     }
 

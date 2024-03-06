@@ -11,19 +11,22 @@ import frc.robot.subsystems.Shooter;
 public class Outtake extends Command {
   private Intake s_Intake;
   private Shooter s_Shooter;
+  private double Output;
   int timer;
   /** Creates a new Outtake. */
-  public Outtake(Intake intake, Shooter shooter) {
+  public Outtake(Intake intake, Shooter shooter, double IntakeOutput) {
     // Use addRequirements() here to declare subsystem dependencies.
     s_Intake = intake;
     s_Shooter = shooter;
+    this.Output = IntakeOutput;
     addRequirements(s_Intake);
     addRequirements(s_Shooter);
   }
 
   @Override
   public void initialize(){
-    timer = 0;
+  // System.out.println("Outtake is initialized");
+   timer = 0;
   }
 
 
@@ -31,13 +34,16 @@ public class Outtake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_Intake.Outtake();
-    s_Shooter.Outtake();
-    if(timer <10){
+    if(timer > 30){
+    s_Intake.randOut(Output);
+    s_Shooter.randOut(-0.9);
+    }
+    if(timer < 75){
+  //    System.out.println("Outtake is running" + timer);
       timer++;
       return;
     }
-    
+  
   }
 
   @Override
@@ -48,7 +54,7 @@ public class Outtake extends Command {
 
   @Override
   public boolean isFinished(){
-    return timer == 200;
+    return timer == 75;
   }
 
  

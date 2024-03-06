@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -27,6 +28,7 @@ public class Shooter extends SubsystemBase {
   boolean intakeLoaded = true;
   double shooterLowerVelocity = ShooterConstants.shooterLowerVelocity;
   final VoltageOut m_request = new VoltageOut(0);
+  final DutyCycleOut m_cycle = new DutyCycleOut(0);
   
   public double shooterMaxVelocity = ShooterConstants.shooterMaxVelocity;
   
@@ -42,13 +44,18 @@ public class Shooter extends SubsystemBase {
   }
 
   //runs the conveyor forward using a set voltage
-  public void runConveyor(){
-    shooterConveyor.setControl(m_request.withOutput(ShooterConstants.conveyorIntakeOutput));
+  public void runConveyor(double output){
+    shooterConveyor.setControl(m_request.withOutput(output));
   }
 
   //runs the conveyor backwards in case pieces get stuck or need to come out backwards
   public void Outtake(){
-    shooterConveyor.setControl(m_request.withOutput(ShooterConstants.conveyorOuttakeOutput));
+    
+    shooterConveyor.setControl(m_cycle.withOutput(-0.5));
+  }
+
+  public void randOut(double percentOut){
+    shooterConveyor.setControl(m_cycle.withOutput(percentOut));
   }
 
   //gets current velocity of shooter to check if up to speed
