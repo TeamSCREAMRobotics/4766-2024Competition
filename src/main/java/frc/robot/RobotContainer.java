@@ -73,8 +73,8 @@ public class RobotContainer {
         auto.addOption("Blue 2 (SO)", new PathPlannerAuto("Blue 2 (SO)"));
 
         //Red Speaker Only Autos
-        auto.addOption("Red 1 (SO)", new PathPlannerAuto("Red 1 (SO)"));
-        auto.addOption("Red 2 (SO)", new PathPlannerAuto("Res 2 (SO)"));
+        //auto.addOption("Red 1 (SO)", new PathPlannerAuto("Red 1 (SO)"));
+        //auto.addOption("Red 2 (SO)", new PathPlannerAuto("Res 2 (SO)"));
         //TODO:The Crease Needs to be 4inches from the edge of the subwoofer/speaker
 
         //Blue Main Autos
@@ -91,7 +91,7 @@ public class RobotContainer {
 
         //Test
         auto.addOption("Cool Test", new PathPlannerAuto("Cool Test"));
-        auto.addOption(null, new PathPlannerAuto(null));
+        //auto.addOption(null, new PathPlannerAuto(null));
 
         
         SmartDashboard.putData(auto);
@@ -155,7 +155,7 @@ public class RobotContainer {
 
         commandOperator.x().onTrue(new InstantCommand(()-> s_Shooter.resetConveyor()));
         commandOperator.x().onTrue(new InstantCommand(()-> s_Shooter.resetShooter())); 
-        commandDriver.a().onTrue(new Outtake(s_Intake, s_Shooter));
+        commandDriver.a().onTrue(new InstantCommand(()-> s_Shooter.Outtake()));
         }   
     }
 

@@ -33,7 +33,11 @@ public class Outtake extends Command {
   public void execute() {
     s_Intake.Outtake();
     s_Shooter.Outtake();
-    timer++;
+    if(timer <10){
+      timer++;
+      return;
+    }
+    
   }
 
   @Override

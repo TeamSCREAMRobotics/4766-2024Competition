@@ -5,7 +5,7 @@
       "x": 0.86,
       "y": 6.66
     },
-    "rotation": -120.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -21,6 +21,12 @@
           "type": "named",
           "data": {
             "name": "Amp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "funny"
           }
         },
         {
@@ -52,6 +58,12 @@
           "type": "named",
           "data": {
             "name": "Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {

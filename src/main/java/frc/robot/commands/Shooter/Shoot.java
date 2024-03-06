@@ -54,15 +54,8 @@ public class Shoot extends Command {
         shooterPhase = 2;
         //shuts off conveyor
         s_Shooter.resetConveyor();
-        //counts up to 5 to ensure the note has left the shooterbox
-        if(timer <15){
-          timer++;
-          return;
-        }
-        else{
-          //tells the command to end
-          shooterPhase = 3;
-        }
+        shooterPhase = 3;
+        
         
       }
     }
@@ -76,7 +69,7 @@ public class Shoot extends Command {
     //tells robot there isn't a note in the shooterbox
     s_Shooter.setIntakeLoaded(false);
     s_Pivot.endSetPointCommand(true);
-    System.out.println("finished shoot");
+    System.out.println("The Fried Chicken Has Been Waffled");
   }
 
   // Returns true when the command should end.

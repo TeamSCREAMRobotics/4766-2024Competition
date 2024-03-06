@@ -48,13 +48,8 @@ public class runIntake extends Command {
 
     //runs conveyor back for one cycle to ensure the note isn't touching the flywheel
     else if(intakePhase == 1){
-      if(timer < 5){
-        timer++;
-        return;
-      }
-      else{
-        intakePhase = 2;
-      }
+      
+      intakePhase = 2;
     }
     else if(intakePhase == 2){
       s_Shooter.Outtake();

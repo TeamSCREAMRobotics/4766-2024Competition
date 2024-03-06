@@ -37,8 +37,8 @@ public class armSetPoint extends Command {
   public void execute() {
     //pivots arm to setPoint
     s_Pivot.goToSetPoint(setPoint);
-    timer ++;
-    if (timer <30){
+    
+    if (s_Pivot.pivotMaster.getPosition().getValueAsDouble() <setPoint-0.19){
       return;
     }
     //spins up shooter
@@ -46,7 +46,7 @@ public class armSetPoint extends Command {
     System.out.println(s_Shooter.shooterMaster.getVelocity());
     //checks to see if shooter is at velocity before running conveyor
     //won't stop if note is being shot (friction will lower velocity, will adjust code when prototype is built)
-    if(s_Shooter.getShooterVelocity()>2&&shooterPhase != 3){
+    if(s_Shooter.getShooterVelocity()>1.8&&shooterPhase != 3){
       //runs conveyor
       s_Shooter.runConveyor();
       //moves to phase one if on phase 0
@@ -54,20 +54,17 @@ public class armSetPoint extends Command {
       //switches to phase 2 after note passes beambreak
       
       //switches to phase 3 if on phase 2 and the beambreak isn't triggered (indicates note being shot)
-      if(shooterPhase >= 1 && !s_Shooter.beamBreakTriggered()){
+      if(!s_Shooter.beamBreakTriggered()){
         shooterPhase = 2;
         //shuts off conveyor
         s_Shooter.resetConveyor();
-        //counts up to 5 to ensure the note has left the shooterbox
-        if(timer <45){
-          timer++;
-          return;
-        }
-        else{
-          //tells the command to end
-          shooterPhase = 3;
+       
+        
           s_Pivot.endSetPointCommand(true);
-        }
+
+        shooterPhase = 3;
+          
+        
         
       }
     }
@@ -84,6 +81,7 @@ public class armSetPoint extends Command {
   @Override
   public boolean isFinished() {
     //ends command when the arm is at the current setpoint.
-    return s_Pivot.endSetPoint;
+    return shooterPhase == 3;
+    
   }
 }
