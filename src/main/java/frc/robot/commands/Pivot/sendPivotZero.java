@@ -11,8 +11,10 @@ public class sendPivotZero extends Command {
   Pivot s_Pivot = new Pivot();
   double setPoint;
   int timer;
+  double timerLength;
   /** Creates a new armSetPoint. */
-  public sendPivotZero(Pivot pivot, double setpoint) {
+  public sendPivotZero(Pivot pivot, double setpoint, double timeLength) {
+    timerLength = timeLength;
     s_Pivot = pivot;
     setPoint = setpoint;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -37,6 +39,6 @@ public class sendPivotZero extends Command {
   @Override
   public boolean isFinished() {
     //ends command when the arm is at the current setpoint.
-    return timer == 75;
+    return timer == timerLength;
   }
 }

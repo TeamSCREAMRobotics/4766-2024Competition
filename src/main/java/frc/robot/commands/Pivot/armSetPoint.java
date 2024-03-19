@@ -16,11 +16,13 @@ public class armSetPoint extends Command {
   double shooterPhase;
   double setPoint;
   int timer;
+  double shootVelocity;
   /** Creates a new armSetPoint. */
-  public armSetPoint(Pivot pivot, Shooter shooter, double setpoint) {
+  public armSetPoint(Pivot pivot, Shooter shooter, double setpoint, double ShootVelocity) {
     s_Pivot = pivot;
     s_Shooter = shooter;
     setPoint = setpoint;
+    shootVelocity = ShootVelocity;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Pivot);
   }
@@ -42,11 +44,11 @@ public class armSetPoint extends Command {
       return;
     }
     //spins up shooter
-    s_Shooter.shoot(ShooterConstants.shooterLowerVelocity);
+    s_Shooter.shoot(shootVelocity);
     System.out.println(s_Shooter.shooterMaster.getVelocity());
     //checks to see if shooter is at velocity before running conveyor
     //won't stop if note is being shot (friction will lower velocity, will adjust code when prototype is built)
-    if(s_Shooter.getShooterVelocity()>1.8&&shooterPhase != 3){
+    if(s_Shooter.getShooterVelocity() > shootVelocity - 0.025 &&shooterPhase != 3){
       //runs conveyor
       s_Shooter.runConveyor(ShooterConstants.conveyorIntakeOutput);
       //moves to phase one if on phase 0
@@ -58,8 +60,6 @@ public class armSetPoint extends Command {
         shooterPhase = 2;
         //shuts off conveyor
         s_Shooter.resetConveyor();
-       
-        
           s_Pivot.endSetPointCommand(true);
 
         shooterPhase = 3;

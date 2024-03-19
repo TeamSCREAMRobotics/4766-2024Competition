@@ -35,7 +35,7 @@ public class Pivot extends SubsystemBase {
     TalonFXConfiguration pivot_config = new TalonFXConfiguration();
     pivot_config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     pivot_config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    pivot_config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 6.5;
+    pivot_config.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 8.2;
     pivot_config.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
     pivot_config.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.1;
     pivot_config.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
@@ -94,5 +94,9 @@ public class Pivot extends SubsystemBase {
     endSetPoint = set;
   }
 
+  @Override
+  public void periodic(){
+    
+  }
   
 }

@@ -43,7 +43,7 @@ public class Shoot extends Command {
     System.out.println(s_Shooter.shooterMaster.getVelocity());
     //checks to see if shooter is at velocity before running conveyor
     //won't stop if note is being shot (friction will lower velocity, will adjust code when prototype is built)
-    if(s_Shooter.getShooterVelocity()>5&&shooterPhase != 3){
+    if(s_Shooter.getShooterVelocity()>60&&shooterPhase != 3){
       //runs conveyor
       s_Shooter.runConveyor(ShooterConstants.conveyorIntakeOutput);
       //moves to phase one if on phase 0

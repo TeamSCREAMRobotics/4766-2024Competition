@@ -53,7 +53,7 @@ public class Climber extends SubsystemBase {
   public void runClimber(double setPoint){
     //sets PID values (Phoenix 6 sucks)
     var slot0Configs = new Slot0Configs();
-      slot0Configs.kP = 1; 
+      slot0Configs.kP = 50; 
       slot0Configs.kI = 0; 
       slot0Configs.kD = 0.1;
       
