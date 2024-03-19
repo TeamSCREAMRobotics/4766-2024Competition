@@ -11,22 +11,23 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 /** Library to load in all of the x and y distances for the AprilTags on the field and put them into separate arrays */
 public class tagLib {
-    public double[] xVals = new double[8];
-    public double[] yVals = new double[8];
-    double[] tagIDs = new double[8];
+    public double[] xVals = new double[9];
+    public double[] yVals = new double[9];
+    double[] tagIDs = new double[9];
     int currentID = 0;
-    int speakerLeftTag = 0;
-    int speakerRightTag = 1;
-    int ampTag = 2;
-    int humanPlayerLeftTag = 3;       
-    int humanPlayerRightTag = 4;
-    int stageRight = 5;
-    int stageLeft = 6;
-    int centerStage = 7;
+    int speakerLeftTag = 1;
+    int speakerRightTag = 2;
+    int ampTag = 3;
+    int humanPlayerLeftTag = 4;       
+    int humanPlayerRightTag = 5;
+    int stageRight = 6;
+    int stageLeft = 7;
+    int centerStage = 8;
     public tagLib(){
         
         Optional<Alliance> alliance = DriverStation.getAlliance();
         if(alliance.get()==DriverStation.Alliance.Red){
+            tagIDs[0] = 0;
             tagIDs[speakerLeftTag] = 4;
             tagIDs[speakerRightTag] = 3;
             tagIDs[ampTag] = 5;
@@ -37,6 +38,7 @@ public class tagLib {
             tagIDs[centerStage] = 13;
         }
         else{
+            tagIDs[0] = 0;
             tagIDs[speakerLeftTag] = 8;
             tagIDs[speakerRightTag] = 7;
             tagIDs[ampTag] = 6;
@@ -46,8 +48,8 @@ public class tagLib {
             tagIDs[stageLeft] = 16;
             tagIDs[centerStage] = 14;
         }
-        xVals[speakerLeftTag] = 0;
-        xVals[speakerRightTag] = 0;
+        xVals[speakerLeftTag] = -1.08;
+        xVals[speakerRightTag] = 8.87;
         xVals[ampTag] = 0;
         xVals[humanPlayerLeftTag] = 0;
         xVals[humanPlayerRightTag] = 0;
@@ -55,8 +57,8 @@ public class tagLib {
         xVals[stageLeft] = 0;
         xVals[centerStage] = 0;
 
-        yVals[speakerLeftTag] = 0;
-        yVals[speakerRightTag] = 0;
+        yVals[speakerLeftTag] = 10.87;
+        yVals[speakerRightTag] = 9.57;
         yVals[ampTag] = 0;
         yVals[humanPlayerLeftTag] = 0;
         yVals[humanPlayerRightTag] = 0;
@@ -70,10 +72,10 @@ public class tagLib {
         int currentID = 0;
         //runs until the desired tag ID is found
         //if tag isn't found, returns a value of -1, which indicates an invalid tag ID (wrong alliance)
-        while(tagIDs[currentID]!=desiredID||currentID >=0){
+        while(tagIDs[currentID]!=desiredID||currentID >0){
             currentID++;
             if(currentID >7){
-                currentID = -1;
+                currentID = 0;
             }
         }
         //return array value for desired tag ID
@@ -82,6 +84,6 @@ public class tagLib {
 
 
     public boolean IDNotFound(){
-        return currentID == -1;
+        return currentID == 0;
     }
 }

@@ -3,18 +3,28 @@ package frc.robot;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.HttpCamera;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.pid.ScreamPIDConstants;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.PivotConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.ControllerRumble;
 import frc.robot.commands.Climber.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Pivot.*;
@@ -32,7 +42,7 @@ public class RobotContainer {
     /* Controllers */
     private final XboxController driver = new XboxController(0);
     private final CommandXboxController commandOperator = new CommandXboxController(1);
-    private final CommandXboxController commandDriver = new CommandXboxController(0);
+    public final CommandXboxController commandDriver = new CommandXboxController(0);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -43,7 +53,7 @@ public class RobotContainer {
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kBack.value);
 
     /* Subsystems */
     public final Swerve s_Swerve = new Swerve();
@@ -58,11 +68,11 @@ public class RobotContainer {
     private boolean climbSetPoint = false;
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        NamedCommands.registerCommand("Target", new Target(s_Swerve, s_Limelight, new ScreamPIDConstants(0.04,0,0.001), new ScreamPIDConstants(0.25, 0, 0.003), new ScreamPIDConstants(0.005,0,0)));
-        NamedCommands.registerCommand("Amp", new armSetPoint(s_Pivot, s_Shooter, 6));
-        NamedCommands.registerCommand("Pivot Down", new sendPivotZero(s_Pivot, 0.5));
+        //NamedCommands.registerCommand("Target", new Target(s_Swerve, s_Limelight, new ScreamPIDConstants(0.04,0,0.001), new ScreamPIDConstants(0.25, 0, 0.003), new ScreamPIDConstants(0.005,0,0)));
+        NamedCommands.registerCommand("Amp", new armSetPoint(s_Pivot, s_Shooter, 6, ShooterConstants.shooterLowerVelocity));
+        NamedCommands.registerCommand("Pivot Down", new sendPivotZero(s_Pivot, 0.5, 75));
         NamedCommands.registerCommand("Intake", new runIntake(s_Intake, s_Shooter, IntakeConstants.intakeOutput));
-        NamedCommands.registerCommand("Shoot", new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterMaxVelocity));
+        NamedCommands.registerCommand("Shoot", new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterSpeakerVelocity));
         NamedCommands.registerCommand("ShootLow", new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterLowerVelocity));
 
         auto = new SendableChooser<Command>();
@@ -89,13 +99,16 @@ public class RobotContainer {
         auto.addOption("MOVE 1", new PathPlannerAuto("MOVE 1"));
         auto.addOption("MOVE 2", new PathPlannerAuto("MOVE 2"));
         auto.addOption("MOVE 3", new PathPlannerAuto("MOVE 3"));
-        
+        auto.addOption("Shoot", new PathPlannerAuto("Shoot"));
         //Test
         
         
 
         
         SmartDashboard.putData(auto);
+        HttpCamera limelight = new HttpCamera("limelight", "http://frcvision.local:1181/stream.mjpg");
+        CameraServer.getVideo(limelight);
+        Shuffleboard.getTab("SmartDashboard").add(limelight);
         
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
@@ -108,7 +121,7 @@ public class RobotContainer {
             )
         );
 
-        s_Pivot.setDefaultCommand(new manualPivot(s_Pivot, () -> -commandOperator.getLeftY()));
+        s_Pivot.setDefaultCommand(new manualPivot(s_Pivot, () -> -commandOperator.getLeftY()/2));
         s_Climber.setDefaultCommand(new manualClimber(s_Climber, ()-> commandOperator.getRightY()));
        // s_Intake.setDefaultCommand(new resetIntake(s_Shooter, s_Intake));
         //s_Shooter.setDefaultCommand(new resetIntake(s_Shooter, s_Intake));
@@ -133,22 +146,23 @@ public class RobotContainer {
         //Driver Controls
         //Right Trigger is already set to fast mode and Joysticks are already set up for swerve
 
-        commandDriver.leftBumper().toggleOnTrue(new runIntake(s_Intake, s_Shooter, IntakeConstants.intakeOutput));
-        commandDriver.rightBumper().onTrue(new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterMaxVelocity));
-        commandDriver.leftTrigger(0.8).onTrue(new Outtake(s_Intake, s_Shooter, -0.5).alongWith(new sendPivotZero(s_Pivot, 2)));
+        commandDriver.leftBumper().toggleOnTrue(new runIntake(s_Intake, s_Shooter, IntakeConstants.intakeOutput).andThen(new ControllerRumble(driver, 50)));
+        commandDriver.rightBumper().onTrue(new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterSpeakerVelocity));
+        commandDriver.leftTrigger(0.8).onTrue(new Outtake(s_Intake, s_Shooter, -0.5).alongWith(new sendPivotZero(s_Pivot, 2, 75)));
         
 
         commandDriver.b().onTrue(new InstantCommand(()-> s_Pivot.setZero()));
+        
         //commandDriver.a().onTrue(new Target(s_Swerve, s_Limelight, new ScreamPIDConstants(0.04,0,0.001), new ScreamPIDConstants(0.25, 0, 0.003), new ScreamPIDConstants(0.005,0,0)));
 
         //Operator Controls
         //Left Joystick is already set to manualPivot.
         //Right Joystick is already set to manualClimb.
-        commandOperator.povUp().onTrue(new armSetPoint(s_Pivot, s_Shooter, 6.2));
+        commandOperator.povUp().onTrue(new armSetPoint(s_Pivot, s_Shooter, PivotConstants.ampSetPoint, ShooterConstants.shooterLowerVelocity).andThen(new sendPivotZero(s_Pivot, 2, 40)));
+        commandOperator.povDown().onTrue(new armSetPoint(s_Pivot, s_Shooter, 2.1, ShooterConstants.shooterPodiumVelocity));
         commandOperator.povRight().onTrue(new InstantCommand(()-> s_Climber.setZero()));
-        commandOperator.povDown().onTrue(new InstantCommand(()-> s_Pivot.setZero()));
       //Toggle up and down for climber
-        commandOperator.povLeft().toggleOnTrue(new Climb(s_Climber, -196)).toggleOnFalse(new Climb(s_Climber, 0));
+        commandOperator.povLeft().toggleOnTrue(new Climb(s_Climber, -140)).toggleOnFalse(new Climb(s_Climber, 0));
 
     
         commandOperator.a().onTrue(new stopClimb(s_Climber));   

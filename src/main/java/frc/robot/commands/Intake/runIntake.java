@@ -43,15 +43,8 @@ public class runIntake extends Command {
     //runs intake
     s_Intake.runIntake(output);
 
-    if(output == -5){
-      s_Intake.runIntake(output);
-      s_Shooter.runConveyor(output);
-      timer ++;
-      if(s_Shooter.beamBreakTriggered() == false && timer == 15){
-        intakePhase = 3;
-      }
-    }
-    else{
+ 
+    
     
     //runs conveyor until beambreak is triggered
     if(intakePhase == 0){
@@ -60,21 +53,14 @@ public class runIntake extends Command {
     }
 
     //runs conveyor back for one cycle to ensure the note isn't touching the flywheel
-    else if(intakePhase == 1){
-      
-      intakePhase = 2;
-    }
-    else if(intakePhase == 2){
-      s_Shooter.Outtake();
-      intakePhase = 3;
-    }
+    
     //tells the robot the intake is loaded
     else{
       s_Shooter.setIntakeLoaded(true);
     }
     
   }
-  }
+  
 
   // Called once the command ends or is interrupted.
   @Override

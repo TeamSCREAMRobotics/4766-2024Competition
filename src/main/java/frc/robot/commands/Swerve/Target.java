@@ -59,8 +59,9 @@ public class Target extends Command {
   public void execute() {
     //double checking if the tag is in the expected range (if not code will never run)
     //If you see this message there is something seriously wrong with tagLib (womp womp)
-    if(targetTag <=0||targetTag>=7){
+    if(targetTag <0||targetTag>8){
       System.out.println("Error - Invalid Tag ID: " + targetTag);
+      
       return;
     }
     //Setpoint is the target value, where you want the robot to go.
@@ -68,7 +69,7 @@ public class Target extends Command {
     double yValue = LimelightHelper.getTV("limelight") ? xController.calculate(LimelightHelper.getTX("limelight"), TagLib.xVals[targetTag]) : 0;
     if(LimelightHelper.getTY("limelight")>-0.2&&LimelightHelper.getTY("limelight")<0.2) xValue = 0;
     
-    double rotValue =/*  LimelightHelper.getTV("limelight") ?  */rotController.calculate(LimelightHelper.getTX("limelight"), 0);
+    double rotValue =/*  LimelightHelper.getTV("limelight") ?  */rotController.calculate(LimelightHelper.getTX("limelight"), TagLib.xVals[targetTag]);
     
     
     //drives the robot to the setpoint as determined by the PIDControllers

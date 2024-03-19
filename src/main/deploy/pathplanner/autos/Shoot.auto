@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7859976973515199,
-      "y": 4.408696224799858
+      "x": 0.8588191415258718,
+      "y": 6.642416657198654
     },
-    "rotation": -60.0
+    "rotation": 57.994616791916535
   },
   "command": {
     "type": "sequential",
@@ -21,18 +21,6 @@
           "type": "named",
           "data": {
             "name": "Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "MOVE 1"
           }
         }
       ]

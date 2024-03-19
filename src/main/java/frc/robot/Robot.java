@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private Swerve m_Swerve;
-  private Limelight m_Limelight;
+  //private Limelight m_Limelight;
   private Pivot m_Pivot;
   private Climber m_Climber;
   private Shooter m_Shooter;
@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_Swerve = m_robotContainer.s_Swerve;
-    m_Limelight = m_robotContainer.s_Limelight;
+    //m_Limelight = m_robotContainer.s_Limelight;
     m_Climber = m_robotContainer.s_Climber;
     m_Pivot = m_robotContainer.s_Pivot;
     m_Shooter = m_robotContainer.s_Shooter;
@@ -64,6 +64,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     SmartDashboard.putBoolean("Note In", m_Shooter.beamBreakTriggered());
+    SmartDashboard.putNumber("Pivot Position", m_Pivot.pivotMaster.getPosition().getValueAsDouble());
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -111,7 +112,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    
+    // System.out.println(m_Swerve.gyro.getYaw());
   }
 
   @Override
