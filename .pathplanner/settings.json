@@ -8,7 +8,13 @@
     "Blue 2 (SO) Paths",
     "Blue 2 Paths",
     "Blue 3 Paths",
+<<<<<<< Updated upstream
     "Blue 4 Paths"
+=======
+    "Blue 4 Paths",
+    "Blue Source Side",
+    "visionTest Paths"
+>>>>>>> Stashed changes
   ],
   "autoFolders": [
     "Basic Autos",
@@ -16,8 +22,8 @@
     "Blue Auto",
     "Red For Now"
   ],
-  "defaultMaxVel": 3.0,
-  "defaultMaxAccel": 3.0,
+  "defaultMaxVel": 4.5,
+  "defaultMaxAccel": 4.5,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "maxModuleSpeed": 4.5

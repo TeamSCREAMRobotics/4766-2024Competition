@@ -13,6 +13,7 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,6 +30,7 @@ public class Climber extends SubsystemBase {
   public Climber() {
  
     TalonFXConfiguration climbConfig = new TalonFXConfiguration();
+    climbConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     climbConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     climberMotor.getConfigurator().apply(climbConfig);
 
@@ -53,7 +55,7 @@ public class Climber extends SubsystemBase {
   public void runClimber(double setPoint){
     //sets PID values (Phoenix 6 sucks)
     var slot0Configs = new Slot0Configs();
-      slot0Configs.kP = 50; 
+      slot0Configs.kP = 15; 
       slot0Configs.kI = 0; 
       slot0Configs.kD = 0.1;
       

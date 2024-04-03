@@ -27,7 +27,10 @@ public class manualClimber extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double percent = leftY.getAsDouble();
+    double percent = 0;
+    if(leftY.getAsDouble() > 0.2 || leftY.getAsDouble() < -0.2){
+      percent = leftY.getAsDouble();
+    }
     s_Climber.manualClimb(percent);
 
     //System.out.println(s_Climber.climbPos);

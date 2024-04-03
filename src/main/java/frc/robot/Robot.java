@@ -65,6 +65,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     SmartDashboard.putBoolean("Note In", m_Shooter.beamBreakTriggered());
     SmartDashboard.putNumber("Pivot Position", m_Pivot.pivotMaster.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("Climber Position", m_Climber.returnClimberPos());
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic

@@ -68,12 +68,17 @@ public class RobotContainer {
     private boolean climbSetPoint = false;
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+
         //NamedCommands.registerCommand("Target", new Target(s_Swerve, s_Limelight, new ScreamPIDConstants(0.04,0,0.001), new ScreamPIDConstants(0.25, 0, 0.003), new ScreamPIDConstants(0.005,0,0)));
         NamedCommands.registerCommand("Amp", new armSetPoint(s_Pivot, s_Shooter, 6, ShooterConstants.shooterLowerVelocity));
         NamedCommands.registerCommand("Pivot Down", new sendPivotZero(s_Pivot, 0.5, 75));
         NamedCommands.registerCommand("Intake", new runIntake(s_Intake, s_Shooter, IntakeConstants.intakeOutput));
         NamedCommands.registerCommand("Shoot", new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterSpeakerVelocity));
         NamedCommands.registerCommand("ShootLow", new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterLowerVelocity));
+<<<<<<< Updated upstream
+=======
+        NamedCommands.registerCommand("visionShotAuto", new visionShot(s_Swerve, s_Pivot, s_Shooter, s_Limelight));
+>>>>>>> Stashed changes
 
         auto = new SendableChooser<Command>();
         //Basic Autos
@@ -100,6 +105,7 @@ public class RobotContainer {
         auto.addOption("MOVE 2", new PathPlannerAuto("MOVE 2"));
         auto.addOption("MOVE 3", new PathPlannerAuto("MOVE 3"));
         auto.addOption("Shoot", new PathPlannerAuto("Shoot"));
+        auto.addOption("Blue Source Side", new PathPlannerAuto("Blue Source"));
         //Test
         
         
@@ -146,6 +152,10 @@ public class RobotContainer {
         //Driver Controls
         //Right Trigger is already set to fast mode and Joysticks are already set up for swerve
 
+<<<<<<< Updated upstream
+=======
+        commandDriver.a().toggleOnTrue(new visionShot(s_Swerve, s_Pivot, s_Shooter, s_Limelight));
+>>>>>>> Stashed changes
         commandDriver.leftBumper().toggleOnTrue(new runIntake(s_Intake, s_Shooter, IntakeConstants.intakeOutput).andThen(new ControllerRumble(driver, 50)));
         commandDriver.rightBumper().onTrue(new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterSpeakerVelocity));
         commandDriver.leftTrigger(0.8).onTrue(new Outtake(s_Intake, s_Shooter, -0.5).alongWith(new sendPivotZero(s_Pivot, 2, 75)));
@@ -162,7 +172,12 @@ public class RobotContainer {
         commandOperator.povDown().onTrue(new armSetPoint(s_Pivot, s_Shooter, 2.1, ShooterConstants.shooterPodiumVelocity));
         commandOperator.povRight().onTrue(new InstantCommand(()-> s_Climber.setZero()));
       //Toggle up and down for climber
+<<<<<<< Updated upstream
         commandOperator.povLeft().toggleOnTrue(new Climb(s_Climber, -140)).toggleOnFalse(new Climb(s_Climber, 0));
+=======
+        commandOperator.povLeft().toggleOnTrue(new Climb(s_Climber, -350)).toggleOnFalse(new Climb(s_Climber, 0));
+        
+>>>>>>> Stashed changes
 
     
         commandOperator.a().onTrue(new stopClimb(s_Climber));   
