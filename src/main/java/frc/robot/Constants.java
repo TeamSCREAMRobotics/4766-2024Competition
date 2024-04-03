@@ -6,9 +6,12 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Velocity;
 import frc.lib.util.COTSTalonFXSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
@@ -180,6 +183,50 @@ public final class Constants {
         public static int intakeOutput = 7;
         public static int outtakeOutput = -5;
     }
+
+    public static record pivotState(double pivotPos){}
+    public static record shooterState(double shooterVolt){}
+
+    // key is distance (TY), value is pivot position (Rot)
+    public static final InterpolatingDoubleTreeMap PIVOT_STATE_MAP = new InterpolatingDoubleTreeMap();
+    static{
+        PIVOT_STATE_MAP.put(0.0, 0.0);
+        PIVOT_STATE_MAP.put(-3.4, 0.76);
+        PIVOT_STATE_MAP.put(-6.0, 0.85);
+        PIVOT_STATE_MAP.put(-9.18, 1.1);
+        PIVOT_STATE_MAP.put(-12.0, 1.2);
+        PIVOT_STATE_MAP.put(-13.18, 1.31);
+        PIVOT_STATE_MAP.put(-15.0, 1.325);
+        PIVOT_STATE_MAP.put(-16.0, 1.6);
+        PIVOT_STATE_MAP.put(-16.64, 1.65);
+        PIVOT_STATE_MAP.put(-18.5, 1.7);
+        PIVOT_STATE_MAP.put(-19.5, 2.0);
+        PIVOT_STATE_MAP.put(-20.5, 2.075);
+        PIVOT_STATE_MAP.put(-22.0, 2.15);
+        PIVOT_STATE_MAP.put(-23.25, 2.2);
+        PIVOT_STATE_MAP.put(-25.0, 2.3);
+        PIVOT_STATE_MAP.put(-26.0, 2.41);
+        PIVOT_STATE_MAP.put(-28.0, 2.48);
+        // add more points, make sure distance lines up with velocity tree.
+    }
+
+    // key is distance (TY), value is shooter RPMS (Volts)
+    public static final InterpolatingDoubleTreeMap VELOCITY_STATE_MAP = new InterpolatingDoubleTreeMap();
+    static{
+        VELOCITY_STATE_MAP.put(0.0, 6.5);
+        VELOCITY_STATE_MAP.put(-3.4, 6.6);
+        VELOCITY_STATE_MAP.put(-6.0, 6.7);
+        VELOCITY_STATE_MAP.put(-9.18, 6.75);
+        VELOCITY_STATE_MAP.put(-12.0, 7.75);
+        VELOCITY_STATE_MAP.put(-13.18, 7.8);
+        VELOCITY_STATE_MAP.put(-16.0, 7.8);
+        VELOCITY_STATE_MAP.put(-18.5, 8.0);
+        VELOCITY_STATE_MAP.put(-20.5, 8.75);
+        VELOCITY_STATE_MAP.put(-23.25, 9.9);
+        VELOCITY_STATE_MAP.put(-28.0, 10.5);
+        // add more points, make sure distance lines up with velocity tree.
+    }
+       
 
 }    
 

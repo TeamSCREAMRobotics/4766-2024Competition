@@ -29,6 +29,8 @@ import frc.robot.commands.Climber.*;
 import frc.robot.commands.Intake.*;
 import frc.robot.commands.Pivot.*;
 import frc.robot.commands.Shooter.Shoot;
+import frc.robot.commands.Shooter.visionShot;
+import frc.robot.commands.Shooter.visionShotAuto;
 import frc.robot.commands.Swerve.*;
 import frc.robot.subsystems.*;
 
@@ -75,10 +77,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Intake", new runIntake(s_Intake, s_Shooter, IntakeConstants.intakeOutput));
         NamedCommands.registerCommand("Shoot", new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterSpeakerVelocity));
         NamedCommands.registerCommand("ShootLow", new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterLowerVelocity));
-<<<<<<< Updated upstream
-=======
-        NamedCommands.registerCommand("visionShotAuto", new visionShot(s_Swerve, s_Pivot, s_Shooter, s_Limelight));
->>>>>>> Stashed changes
+        NamedCommands.registerCommand("visionShotAuto", new visionShotAuto(s_Swerve, s_Pivot, s_Shooter, s_Limelight));
 
         auto = new SendableChooser<Command>();
         //Basic Autos
@@ -152,10 +151,7 @@ public class RobotContainer {
         //Driver Controls
         //Right Trigger is already set to fast mode and Joysticks are already set up for swerve
 
-<<<<<<< Updated upstream
-=======
         commandDriver.a().toggleOnTrue(new visionShot(s_Swerve, s_Pivot, s_Shooter, s_Limelight));
->>>>>>> Stashed changes
         commandDriver.leftBumper().toggleOnTrue(new runIntake(s_Intake, s_Shooter, IntakeConstants.intakeOutput).andThen(new ControllerRumble(driver, 50)));
         commandDriver.rightBumper().onTrue(new Shoot(s_Shooter, s_Pivot, ShooterConstants.shooterSpeakerVelocity));
         commandDriver.leftTrigger(0.8).onTrue(new Outtake(s_Intake, s_Shooter, -0.5).alongWith(new sendPivotZero(s_Pivot, 2, 75)));
@@ -172,12 +168,8 @@ public class RobotContainer {
         commandOperator.povDown().onTrue(new armSetPoint(s_Pivot, s_Shooter, 2.1, ShooterConstants.shooterPodiumVelocity));
         commandOperator.povRight().onTrue(new InstantCommand(()-> s_Climber.setZero()));
       //Toggle up and down for climber
-<<<<<<< Updated upstream
-        commandOperator.povLeft().toggleOnTrue(new Climb(s_Climber, -140)).toggleOnFalse(new Climb(s_Climber, 0));
-=======
         commandOperator.povLeft().toggleOnTrue(new Climb(s_Climber, -350)).toggleOnFalse(new Climb(s_Climber, 0));
         
->>>>>>> Stashed changes
 
     
         commandOperator.a().onTrue(new stopClimb(s_Climber));   
