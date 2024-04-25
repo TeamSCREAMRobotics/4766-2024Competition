@@ -70,7 +70,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "Blue 1 Paths",
+  "folder": null,
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

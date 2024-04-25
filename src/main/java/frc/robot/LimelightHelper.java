@@ -512,7 +512,7 @@ public class LimelightHelper {
 
         return new PoseEstimate(pose, timestamp,latency,tagCount,tagSpan,tagDist,tagArea,rawFiducials);
     }
-
+    //only warning in code but probably necessary
     private static void printPoseEstimate(PoseEstimate pose) {
         if (pose == null) {
             System.out.println("No PoseEstimate available.");

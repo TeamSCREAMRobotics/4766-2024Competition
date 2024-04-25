@@ -7,11 +7,9 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
-import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.Velocity;
 import frc.lib.util.COTSTalonFXSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
@@ -22,12 +20,12 @@ public final class Constants {
         public static final int pigeonID = 9;
         public static final String canivorename = "canivore";
 
-        public static final COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
+        public static final COTSTalonFXSwerveConstants chosenModule =  
         COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(20); //TODO: This must be tuned to specific robot
-        public static final double wheelBase = Units.inchesToMeters(22.75); //TODO: This must be tuned to specific robot
+        public static final double trackWidth = Units.inchesToMeters(20);
+        public static final double wheelBase = Units.inchesToMeters(22.75);
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
         /* Swerve Kinematics 
@@ -71,21 +69,21 @@ public final class Constants {
         public static final double angleKD = chosenModule.angleKD;
 
         /* Drive Motor PID Values */
-        public static final double driveKP = 0.12; //TODO: This must be tuned to specific robot
+        public static final double driveKP = 0.12;
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
         public static final double driveKF = 0.0;
 
         /* Drive Motor Characterization Values From SYSID */
-        public static final double driveKS = 0.32; //TODO: This must be tuned to specific robot
+        public static final double driveKS = 0.32; 
         public static final double driveKV = 1.51;
         public static final double driveKA = 0.27;
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = 4.5; //TODO: This must be tuned to specific robot
+        public static final double maxSpeed = 5.6;
         /** Radians per Second */
-        public static final double maxAngularVelocity = 10.0; //TODO: This must be tuned to specific robot
+        public static final double maxAngularVelocity = 10.0;
 
         /* Neutral Modes */
         public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;
@@ -93,7 +91,7 @@ public final class Constants {
 
         /* Module Specific Constants */
         /* Front Right Module - Module 0 */
-        public static final class Mod0 { //TODO: This must be tuned to specific robot
+        public static final class Mod0 { 
             public static final int driveMotorID = 3;
             public static final int angleMotorID = 4;
             public static final int canCoderID = 1;
@@ -103,7 +101,7 @@ public final class Constants {
         }
 
         /* Front Left Module - Module 1 */
-        public static final class Mod1 { //TODO: This must be tuned to specific robot
+        public static final class Mod1 { 
             public static final int driveMotorID = 1;
             public static final int angleMotorID = 2;
             public static final int canCoderID = 2;
@@ -113,7 +111,7 @@ public final class Constants {
         }
         
         /* Back Right Module - Module 2 */
-        public static final class Mod2 { //TODO: This must be tuned to specific robot
+        public static final class Mod2 { 
             public static final int driveMotorID = 5;
             public static final int angleMotorID = 6;
             public static final int canCoderID = 3;
@@ -123,7 +121,7 @@ public final class Constants {
         }
 
         /* Back Left Module - Module 3 */
-        public static final class Mod3 { //TODO: This must be tuned to specific robot
+        public static final class Mod3 { 
             public static final int driveMotorID = 7;
             public static final int angleMotorID = 8;
             public static final int canCoderID = 4;
@@ -133,7 +131,7 @@ public final class Constants {
         }
     }
 
-    public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
+    public static final class AutoConstants { 
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
@@ -154,7 +152,7 @@ public final class Constants {
         public static int shooterFollowerID = 16;
         public static int conveyorID = 10;
         public static int beamBreakChannelID = 3;
-        public static int conveyorIntakeOutput = 7;
+        public static int conveyorIntakeOutput = 12;
         public static int conveyorOuttakeOutput = -5;
         public static double shooterPodiumVelocity = 12;
         public static double shooterSpeakerVelocity = 9;
@@ -166,10 +164,10 @@ public final class Constants {
         public static int pivotMasterID = 11;
         public static int pivotFollowerID = 13;
         public static int pivotCANCoderID = 5;
-        public static double pivotKG = 0.7;
-        public static double pivotKP = 35;
+        public static double pivotKG = 0.2;
+        public static double pivotKP = 5;
         public static double pivotKD = 0;
-        
+        public static double pivotKV = 0.0;
         public static double ampSetPoint = 8.068;
     }
 
@@ -180,14 +178,14 @@ public final class Constants {
     public static final class IntakeConstants{
         public static int intakeMasterID = 9;
         public static int intakeFollowerID = 12;
-        public static int intakeOutput = 7;
+        public static int intakeOutput = 10;
         public static int outtakeOutput = -5;
     }
 
     public static record pivotState(double pivotPos){}
     public static record shooterState(double shooterVolt){}
 
-    // key is distance (TY), value is pivot position (Rot)
+    // key is distance (TY), value is pivot position (Rotations)
     public static final InterpolatingDoubleTreeMap PIVOT_STATE_MAP = new InterpolatingDoubleTreeMap();
     static{
         PIVOT_STATE_MAP.put(0.0, 0.0);
@@ -207,10 +205,11 @@ public final class Constants {
         PIVOT_STATE_MAP.put(-25.0, 2.3);
         PIVOT_STATE_MAP.put(-26.0, 2.41);
         PIVOT_STATE_MAP.put(-28.0, 2.48);
-        // add more points, make sure distance lines up with velocity tree.
+        PIVOT_STATE_MAP.put(-28.8, 2.50);
+        
     }
 
-    // key is distance (TY), value is shooter RPMS (Volts)
+    // key is distance (TY), value is shooter RPMS (Voltage input)
     public static final InterpolatingDoubleTreeMap VELOCITY_STATE_MAP = new InterpolatingDoubleTreeMap();
     static{
         VELOCITY_STATE_MAP.put(0.0, 6.5);
@@ -224,7 +223,6 @@ public final class Constants {
         VELOCITY_STATE_MAP.put(-20.5, 8.75);
         VELOCITY_STATE_MAP.put(-23.25, 9.9);
         VELOCITY_STATE_MAP.put(-28.0, 10.5);
-        // add more points, make sure distance lines up with velocity tree.
     }
        
 

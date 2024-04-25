@@ -1,0 +1,95 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.8561626240061597,
+        "y": 6.501949869996606
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.4606476334512375,
+        "y": 7.710919888886762
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.9260279603180286,
+        "y": 7.63
+      },
+      "prevControl": {
+        "x": 2.4201333081502177,
+        "y": 7.647004862257742
+      },
+      "nextControl": {
+        "x": 4.085373194161296,
+        "y": 7.59103041230779
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.024978887564613,
+        "y": 7.4842588431615615
+      },
+      "prevControl": {
+        "x": 4.949887859068561,
+        "y": 7.538013394586365
+      },
+      "nextControl": {
+        "x": 6.960511242959807,
+        "y": 7.437482225391801
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.201481606786665,
+        "y": 7.349396524989431
+      },
+      "prevControl": {
+        "x": 7.24256094250659,
+        "y": 7.337702370546991
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 2,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.6,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 21.419577075574118,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "AmpSide",
+  "previewStartingState": {
+    "rotation": 60.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7859976973515199,
-      "y": 4.408696224799858
+      "x": 0.8093860062363999,
+      "y": 4.42
     },
-    "rotation": -60.090863503857946
+    "rotation": -60.64001953657129
   },
   "command": {
     "type": "sequential",
@@ -22,21 +22,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "parallel",
                 "data": {
-                  "pathName": "Blue Source 1"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.5
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Blue Source 1"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Long"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -65,15 +66,9 @@
                 }
               },
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.5
-                }
-              },
-              {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Intake Long"
                 }
               }
             ]

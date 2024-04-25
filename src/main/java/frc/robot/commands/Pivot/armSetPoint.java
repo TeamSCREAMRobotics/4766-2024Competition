@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shooter;
-
+//sets location of the arm to a set location and shoots at a set voltage
 public class armSetPoint extends Command {
 
   Shooter s_Shooter;
@@ -16,13 +16,13 @@ public class armSetPoint extends Command {
   double shooterPhase;
   double setPoint;
   int timer;
-  double shootVelocity;
+  double shootVoltage;
   /** Creates a new armSetPoint. */
-  public armSetPoint(Pivot pivot, Shooter shooter, double setpoint, double ShootVelocity) {
+  public armSetPoint(Pivot pivot, Shooter shooter, double setpoint, double ShootVoltage) {
     s_Pivot = pivot;
     s_Shooter = shooter;
     setPoint = setpoint;
-    shootVelocity = ShootVelocity;
+    shootVoltage = ShootVoltage;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_Pivot);
   }
@@ -44,11 +44,11 @@ public class armSetPoint extends Command {
       return;
     }
     //spins up shooter
-    s_Shooter.shoot(shootVelocity);
+    s_Shooter.shoot(shootVoltage);
     System.out.println(s_Shooter.shooterMaster.getVelocity());
     //checks to see if shooter is at velocity before running conveyor
-    //won't stop if note is being shot (friction will lower velocity, will adjust code when prototype is built)
-    if(s_Shooter.getShooterVelocity() > shootVelocity - 0.025 &&shooterPhase != 3){
+    //won't stop if note is being shot
+    if(s_Shooter.getShooterVelocity() > shootVoltage * 8.0 &&shooterPhase != 3){
       //runs conveyor
       s_Shooter.runConveyor(ShooterConstants.conveyorIntakeOutput);
       //moves to phase one if on phase 0
@@ -57,7 +57,7 @@ public class armSetPoint extends Command {
       
       //switches to phase 3 if on phase 2 and the beambreak isn't triggered (indicates note being shot)
       if(!s_Shooter.beamBreakTriggered()){
-        shooterPhase = 2;
+        shooterPhase = 3;
         //shuts off conveyor
         s_Shooter.resetConveyor();
           s_Pivot.endSetPointCommand(true);
@@ -71,6 +71,7 @@ public class armSetPoint extends Command {
   @Override
   public void end(boolean interrupted){
     s_Shooter.resetShooter();
+    s_Shooter.resetConveyor();
     
   }
 
@@ -79,7 +80,7 @@ public class armSetPoint extends Command {
   @Override
   public boolean isFinished() {
     //ends command when the arm is at the current setpoint.
-    return shooterPhase == 3;
+    return !s_Shooter.beamBreakTriggered();
     
   }
 }

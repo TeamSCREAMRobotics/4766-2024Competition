@@ -1,0 +1,68 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.01,
+        "y": 4.09
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.392778300996032,
+        "y": 5.225870404234871
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.979063359551898,
+        "y": 6.620085829245293
+      },
+      "prevControl": {
+        "x": 6.7911534077848446,
+        "y": 6.384569705567559
+      },
+      "nextControl": {
+        "x": 5.166973311318951,
+        "y": 6.855601952923028
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.102884685579349,
+        "y": 5.547612425391122
+      },
+      "prevControl": {
+        "x": 3.1711329930973413,
+        "y": 5.576861700041691
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.6,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Cool 2",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

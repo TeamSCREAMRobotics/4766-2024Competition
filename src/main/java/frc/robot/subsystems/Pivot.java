@@ -9,14 +9,12 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PivotConstants;
 
@@ -48,21 +46,25 @@ public class Pivot extends SubsystemBase {
       false));
   }
 
+  //updates the current position of the pivot (wasn't updating when it wasn't a separate class for some reason)
   public void updatePivotPos(){
     pivotPos = pivotMaster.getPosition().getValueAsDouble();
   }
 
+  //returns the current positon of the pivot
   public double returnPivotPos(){
     updatePivotPos();
     return pivotPos;
   }
 
+  //main class for moving the pivot to a set position using the PID parameters in constants. 
   public void goToSetPoint(double setPoint){
     var slot0Configs = new Slot0Configs();
       slot0Configs.kG = PivotConstants.pivotKG;
       slot0Configs.kP = PivotConstants.pivotKP;
       slot0Configs.kI = 0;
       slot0Configs.kD = PivotConstants.pivotKD;
+      slot0Configs.kV = PivotConstants.pivotKV;
       slot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
 
     pivotMaster.getConfigurator().apply(slot0Configs);
@@ -75,10 +77,12 @@ public class Pivot extends SubsystemBase {
     pivotMaster.setControl(magic_request.withPosition(setPoint));
   }
 
+  //Compares current location of pivot with desired location and returns true if they are equal
   public boolean isAtSetPoint(double setPoint){
     return pivotMaster.getPosition().getValue()==setPoint;
   }
 
+  //zeroes the pivot (had a few womp womps)
   public void setZero(){
     pivotMaster.setPosition(0);
   }
@@ -88,6 +92,11 @@ public class Pivot extends SubsystemBase {
     pivotMaster.setControl(m_request.withOutput((percent * 4)/*+PivotConstants.pivotKG*/)); 
     //This is being printed so I could see where motor positions were for setpoints 
     //System.out.println(pivotMaster.getPosition());
+  }
+  //resets the john
+  public void resetPivot(){
+    final VoltageOut m_request = new VoltageOut(0);
+    pivotMaster.setControl(m_request.withOutput(0));
   }
 
   public void endSetPointCommand(boolean set){

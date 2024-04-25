@@ -4,23 +4,20 @@
 
 package frc.robot.commands.Shooter;
 
-import java.util.function.DoubleSupplier;
 
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
 import frc.robot.LimelightHelper;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.Constants.pivotState;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
-
+//visionshot for autos that automatically shoots
 public class visionShotAuto extends Command {
   Swerve s_Swerve;
   Pivot s_Pivot;
@@ -33,9 +30,10 @@ public class visionShotAuto extends Command {
   int timer;
   double shootVelocity;
   boolean isAuto;
+  boolean isNote;
   Timer waitTime = new Timer();
 
-  PIDController targetPID = new PIDController(0.04, 0, 0.0);
+  PIDController targetPID = new PIDController(0.03, 0, 0.0);
   
   /** Creates a new visionShot. */
   public visionShotAuto(Swerve swerve, Pivot pivot, Shooter shooter, Limelight limelight) {
@@ -55,6 +53,7 @@ public class visionShotAuto extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    isNote = false;
     waitTime.reset();
     tagDist = LimelightHelper.getTY("limelight");
     shooterPhase = 0;
@@ -68,7 +67,10 @@ public class visionShotAuto extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    tagDist = LimelightHelper.getTY("limelight");
+    System.out.println("Pivot Velocity" + s_Pivot.pivotMaster.getVelocity().getValueAsDouble());
+    if(!s_Shooter.beamBreakTriggered()){
+      isNote = true;
+    }
 
 // If the command is in auto mode it will go through checks to make sure its ready to fire instead of waiting for driver.
 
@@ -82,22 +84,21 @@ public class visionShotAuto extends Command {
     }
 
         // Centers the robot to the aprilTag
-         if(LimelightHelper.getTX("limelight")>0.5||LimelightHelper.getTX("limelight")<-0.5)
+         if(LimelightHelper.getTX("limelight") != 0 && s_Shooter.beamBreakTriggered())
         {s_Swerve.autoDrive(s_Swerve.fieldRelativeSpeeds(new Translation2d(), targetPID.calculate(LimelightHelper.getTX("limelight"))));}
 
         // Sends pivot to setpoint which is the value fetched from the table.
         s_Pivot.goToSetPoint(setpoint);
 
         // Makes sure that the pivot is not moving before starting the flywheels.
-        if(s_Pivot.pivotMaster.getVelocity().getValueAsDouble() == 0 && s_Pivot.pivotMaster.getPosition().getValueAsDouble() > setpoint - 0.005 && s_Pivot.pivotMaster.getPosition().getValueAsDouble() < setpoint + 0.005){
           waitTime.start();
           s_Shooter.shoot(shootVelocity);
-        }
+        
 
     
         
         //Checks to make sure that the flywheels are at the proper voltage before moving the note.
-        if(s_Shooter.shooterMaster.getMotorVoltage().getValueAsDouble() > shootVelocity - 0.05 && s_Shooter.shooterMaster.getVelocity().getValueAsDouble() > shootVelocity * 5 && waitTime.get() > 1){
+        if(s_Shooter.shooterMaster.getVelocity().getValueAsDouble() >= shootVelocity * 7 && s_Pivot.pivotMaster.getVelocity().getValueAsDouble() == 0.0 && s_Pivot.pivotMaster.getPosition().getValueAsDouble() > 1){
           s_Shooter.runConveyor(ShooterConstants.conveyorIntakeOutput);
         }
 
@@ -111,11 +112,12 @@ public class visionShotAuto extends Command {
   public void end(boolean interrupted) {
     s_Shooter.resetConveyor();
     s_Shooter.resetShooter();
+    s_Pivot.resetPivot();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !s_Shooter.beamBreakTriggered() || timer >= 15;
+    return !s_Shooter.beamBreakTriggered() || timer >= 15 || isNote;
   }
 }

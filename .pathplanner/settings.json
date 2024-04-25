@@ -1,30 +1,20 @@
 {
-  "robotWidth": 0.889,
-  "robotLength": 0.9652,
+  "robotWidth": 0.9,
+  "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "Blue 1 (SO) Paths",
-    "Blue 1 Paths",
-    "Blue 2 (SO) Paths",
-    "Blue 2 Paths",
-    "Blue 3 Paths",
-<<<<<<< Updated upstream
-    "Blue 4 Paths"
-=======
-    "Blue 4 Paths",
-    "Blue Source Side",
-    "visionTest Paths"
->>>>>>> Stashed changes
+    "AmpSide",
+    "Cool 2",
+    "AmpSide1",
+    "Sisyphus Auto",
+    "SourceSide",
+    "SourceSide2",
+    "visionTestPaths"
   ],
-  "autoFolders": [
-    "Basic Autos",
-    "Blue (SO) Auto",
-    "Blue Auto",
-    "Red For Now"
-  ],
-  "defaultMaxVel": 4.5,
-  "defaultMaxAccel": 4.5,
+  "autoFolders": [],
+  "defaultMaxVel": 5.6,
+  "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
-  "maxModuleSpeed": 4.5
+  "maxModuleSpeed": 5.6
 }

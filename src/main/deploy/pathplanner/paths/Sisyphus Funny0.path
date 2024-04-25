@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.29,
-        "y": 7.41
+        "x": 1.494174579798092,
+        "y": 5.586611458258547
       },
       "prevControl": null,
       "nextControl": {
-        "x": 9.29,
-        "y": 7.41
+        "x": 2.4941745797980923,
+        "y": 5.586611458258547
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 13.836044159207756,
-        "y": 6.74815700919458
+        "x": 2.459400643266846,
+        "y": 5.586611458258547
       },
       "prevControl": {
-        "x": 12.951670306150918,
-        "y": 7.142280139361215
+        "x": 1.459400643266846,
+        "y": 5.586611458258547
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,20 +32,20 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 5.6,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 148.01197770016483,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "visionTest Paths",
+  "folder": "Sisyphus Auto",
   "previewStartingState": {
-    "rotation": 179.64617078324417,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

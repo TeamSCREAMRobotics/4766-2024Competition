@@ -36,7 +36,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Intake Long"
                 }
               }
             ]
@@ -57,6 +57,6 @@
       ]
     }
   },
-  "folder": "Blue Auto",
+  "folder": null,
   "choreoAuto": false
 }

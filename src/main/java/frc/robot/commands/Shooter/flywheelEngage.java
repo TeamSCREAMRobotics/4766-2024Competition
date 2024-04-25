@@ -2,42 +2,43 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Swerve;
+package frc.robot.commands.Shooter;
 
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Shooter;
+//keeps flywheels spinning for passing
+public class flywheelEngage extends Command {
+  Shooter s_Shooter;
 
-
-public class rotationTarget extends Command {
-  Swerve s_Swerve;
-  double rotationTarget;
-  /** Creates a new rotationTarget. */
-  public rotationTarget(Swerve swerve) {
-    s_Swerve = swerve;
+  double voltage;
+  /** Creates a new flywheelEngage. */
+  public flywheelEngage(Shooter shooter, double Voltage) {
+    voltage = Voltage;
+    s_Shooter = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(s_Swerve);
+    addRequirements(s_Shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    rotationTarget = 30;
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_Swerve.autoDrive(s_Swerve.fieldRelativeSpeeds(new Translation2d(), 30));
+    s_Shooter.shoot(voltage);
+  
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    s_Shooter.resetShooter();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return s_Swerve.gyro.getYaw().getValueAsDouble()>=rotationTarget;
+    return false;
   }
 }

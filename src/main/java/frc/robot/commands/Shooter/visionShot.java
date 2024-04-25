@@ -4,23 +4,19 @@
 
 package frc.robot.commands.Shooter;
 
-import java.util.function.DoubleSupplier;
 
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
 import frc.robot.LimelightHelper;
-import frc.robot.Constants.ShooterConstants;
-import frc.robot.Constants.pivotState;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
-
+//auto aim using the Apriltags. Lines up, raises pivot, and spins shooter, waits for driver to shoot (more accurate in practice)
 public class visionShot extends Command {
   Swerve s_Swerve;
   Pivot s_Pivot;
@@ -82,9 +78,8 @@ public class visionShot extends Command {
 
 
 
-      if(LimelightHelper.getTX("limelight")>0.5||LimelightHelper.getTX("limelight")<-0.5)
+      if(LimelightHelper.getTX("limelight") != 0)
         {s_Swerve.autoDrive(s_Swerve.fieldRelativeSpeeds(new Translation2d(), targetPID.calculate(LimelightHelper.getTX("limelight"))));
-        return;
         }
 
 

@@ -12,6 +12,8 @@ public class sendPivotZero extends Command {
   double setPoint;
   int timer;
   double timerLength;
+  boolean isDone;
+  
   /** Creates a new armSetPoint. */
   public sendPivotZero(Pivot pivot, double setpoint, double timeLength) {
     timerLength = timeLength;
@@ -23,6 +25,7 @@ public class sendPivotZero extends Command {
 
   @Override
   public void initialize(){
+    isDone = false;
     timer = 0;
   }
   
@@ -31,6 +34,12 @@ public class sendPivotZero extends Command {
   public void execute() {
     //pivots arm to setPoint
     s_Pivot.goToSetPoint(setPoint);
+
+    if(s_Pivot.pivotMaster.getMotorVoltage().getValueAsDouble() < 0 && s_Pivot.pivotMaster.getPosition().getValueAsDouble() <= 3.0){
+      s_Pivot.resetPivot();
+      isDone = true;
+    }
+
     timer++;
   }
 
@@ -39,6 +48,6 @@ public class sendPivotZero extends Command {
   @Override
   public boolean isFinished() {
     //ends command when the arm is at the current setpoint.
-    return timer == timerLength;
+    return timer == timerLength || isDone;
   }
 }

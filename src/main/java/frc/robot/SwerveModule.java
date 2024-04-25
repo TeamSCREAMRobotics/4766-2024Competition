@@ -1,13 +1,11 @@
 package frc.robot;
 
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.InvertedValue;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -51,14 +49,10 @@ public class SwerveModule {
         mAngleMotor.getPosition().setUpdateFrequency(50);
         resetToAbsolute();
 
-        /* Drive Motor Config */
-        TalonFXConfiguration mod2Flip = new TalonFXConfiguration();
-        //mod2Flip.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-        
+        /* Drive Motor Config */        
         mDriveMotor = new TalonFX(moduleConstants.driveMotorID, Constants.Swerve.canivorename);
         
         mDriveMotor.getConfigurator().apply(Robot.ctreConfigs.swerveDriveFXConfig);
-        //if(moduleNumber == 2)mDriveMotor.getConfigurator().apply(mod2Flip);
         mDriveMotor.getConfigurator().setPosition(0.0);
         mDriveMotor.getVelocity().setUpdateFrequency(50);
     }
